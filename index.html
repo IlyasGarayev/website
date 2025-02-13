@@ -1,1 +1,42 @@
-Hello, Wolrd!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Digit Recognizer</title>
+</head>
+<body>
+  <h1>Handwritten Digit Predictor</h1>
+  <input type="file" id="fileInput" accept="image/*" />
+  <button onclick="uploadImage()">Predict</button>
+  <div id="result"></div>
+
+  <script>
+    async function uploadImage() {
+      const fileInput = document.getElementById("fileInput");
+      if (!fileInput.files.length) {
+        alert("Please select an image.");
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
+
+      // Replace with your friend's API endpoint that forwards to your CNN API
+      const apiUrl = "https://ac66-158-181-42-72.ngrok-free.app/predict";
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          body: formData
+        });
+        const data = await response.json();
+        document.getElementById("result").innerText = "Prediction: " + data.prediction;
+      } catch (error) {
+        console.error("Error:", error);
+        document.getElementById("result").innerText = "Error occurred during prediction.";
+      }
+    }
+  </script>
+</body>
+</html>

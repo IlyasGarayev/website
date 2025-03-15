@@ -42,4 +42,916 @@
 </html> -->
 
 
-Hello, Wolrd!
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Ping Pong</title>
+  <style>
+    :root {
+      --background: #0f172a;
+      --primary: #f8fafc;
+      --accent: #22d3ee;
+      --paddle: #f8fafc;
+      --ball: #22d3ee;
+      --shadow: rgba(0, 0, 0, 0.2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--background);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: var(--primary);
+      overflow: hidden;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+
+    .score-container {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .score {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .score-value {
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    .game-container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      height: 500px;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px var(--shadow);
+      overflow: hidden;
+    }
+
+    .paddle {
+      position: absolute;
+      width: 10px;
+      height: 100px;
+      background-color: var(--paddle);
+      border-radius: 20px;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .player {
+      left: 20px;
+    }
+
+    .computer {
+      right: 20px;
+    }
+
+    .ball {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background-color: var(--ball);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    .center-line {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+
+    .controls {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      background-color: rgba(255, 255, 255, 0.05);
+      color: var(--primary);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: var(--accent);
+    }
+
+    button.primary {
+      background-color: var(--accent);
+      color: var(--background);
+    }
+
+    button.primary:hover {
+      background-color: #0ea5e9;
+    }
+
+    .difficulty {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .difficulty button {
+      padding: 0.5rem 1rem;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .difficulty button.active {
+      background-color: var(--accent);
+      color: var(--background);
+    }
+
+    .game-over {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .game-over.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .game-over h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .game-over p {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      color: var(--accent);
+    }
+
+    .mobile-controls {
+      display: none;
+      width: 100%;
+      justify-content: space-between;
+      margin-top: 1rem;
+    }
+
+    .mobile-btn {
+      width: 80px;
+      height: 80px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: var(--primary);
+    }
+
+    .mobile-btn:active {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .game-container {
+        height: 400px;
+      }
+      .mobile-controls {
+        display: flex;
+      }
+      .paddle {
+        height: 80px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem;
+      }
+      .game-container {
+        height: 300px;
+      }
+      .paddle {
+        height: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Modern Ping Pong</h1>
+    
+    <div class="score-container">
+      <div class="score">
+        <span>You:</span>
+        <span class="score-value" id="player-score">0</span>
+      </div>
+      <div class="score">
+        <span>AI:</span>
+        <span class="score-value" id="computer-score">0</span>
+      </div>
+    </div>
+    
+    <div class="game-container" id="game-container">
+      <div class="center-line"></div>
+      <div class="paddle player" id="player-paddle"></div>
+      <div class="paddle computer" id="computer-paddle"></div>
+      <div class="ball" id="ball"></div>
+      
+      <div class="game-over" id="game-over">
+        <h2 id="game-over-title">Game Over</h2>
+        <p id="game-over-message">You win!</p>
+        <button class="primary" id="restart-button">Play Again</button>
+      </div>
+    </div>
+    
+    <div class="mobile-controls">
+      <div class="mobile-btn" id="up-button">↑</div>
+      <div class="mobile-btn" id="down-button">↓</div>
+    </div>
+    
+    <div class="controls">
+      <button id="start-button" class="primary">Start Game</button>
+      <button id="pause-button">Pause</button>
+      <button id="reset-button">Reset</button>
+    </div>
+    
+    <div class="difficulty">
+      <span>Difficulty:</span>
+      <button class="active" data-difficulty="easy">Easy</button>
+      <button data-difficulty="medium">Medium</button>
+      <button data-difficulty="hard">Hard</button>
+    </div>
+  </div>
+
+  <script>
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Elements
+  const gameContainer = document.getElementById('game-container');
+  const ball = document.getElementById('ball');
+  const playerPaddle = document.getElementById('player-paddle');
+  const computerPaddle = document.getElementById('computer-paddle');
+  const playerScoreElement = document.getElementById('player-score');
+  const computerScoreElement = document.getElementById('computer-score');
+  const startButton = document.getElementById('start-button');
+  const pauseButton = document.getElementById('pause-button');
+  const resetButton = document.getElementById('reset-button');
+  const difficultyButtons = document.querySelectorAll('.difficulty button');
+  const gameOverPanel = document.getElementById('game-over');
+  const gameOverTitle = document.getElementById('game-over-title');
+  const gameOverMessage = document.getElementById('game-over-message');
+  const restartButton = document.getElementById('restart-button');
+  const upButton = document.getElementById('up-button');
+  const downButton = document.getElementById('down-button');
+
+  // Game settings and state
+  let gameRunning = false;
+  let gamePaused = false;
+  let animationId;
+  let lastTime = 0;
+  let playerScore = 0;
+  let computerScore = 0;
+  let difficulty = 'easy';
+  let winningScore = 5;
+  
+  // Difficulty settings
+  const difficultySettings = {
+    easy: { computerSpeed: 3, ballSpeedMultiplier: 1 },
+    medium: { computerSpeed: 5, ballSpeedMultiplier: 1.3 },
+    hard: { computerSpeed: 7, ballSpeedMultiplier: 1.6 }
+  };
+
+  // Game objects
+  const gameState = {
+    ball: {
+      x: gameContainer.clientWidth / 2,
+      y: gameContainer.clientHeight / 2,
+      speedX: 5,
+      speedY: 3,
+      size: 15
+    },
+    player: {
+      y: gameContainer.clientHeight / 2 - 50,
+      speed: 0,
+      maxSpeed: 8,
+      height: parseInt(getComputedStyle(playerPaddle).height),
+      width: parseInt(getComputedStyle(playerPaddle).width)
+    },
+    computer: {
+      y: gameContainer.clientHeight / 2 - 50,
+      speed: 0,
+      height: parseInt(getComputedStyle(computerPaddle).height),
+      width: parseInt(getComputedStyle(computerPaddle).width)
+    },
+    keys: {
+      ArrowUp: false,
+      ArrowDown: false
+    }
+  };
+
+  // Reset game state
+  function resetGame() {
+    gameState.ball.x = gameContainer.clientWidth / 2;
+    gameState.ball.y = gameContainer.clientHeight / 2;
+    gameState.ball.speedX = 5 * (Math.random() > 0.5 ? 1 : -1);
+    gameState.ball.speedY = 3 * (Math.random() > 0.5 ? 1 : -1);
+    
+    gameState.player.y = gameContainer.clientHeight / 2 - gameState.player.height / 2;
+    gameState.computer.y = gameContainer.clientHeight / 2 - gameState.computer.height / 2;
+    
+    // Hide game over panel
+    gameOverPanel.classList.remove('active');
+  }
+
+  // Initialize game
+  function init() {
+    // Apply initial positions
+    resetGame();
+    updatePositions();
+    
+    // Set paddle height based on screen size
+    const paddleHeight = gameContainer.clientHeight / 5;
+    playerPaddle.style.height = `${paddleHeight}px`;
+    computerPaddle.style.height = `${paddleHeight}px`;
+    gameState.player.height = paddleHeight;
+    gameState.computer.height = paddleHeight;
+    
+    // Event listeners
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+    
+    startButton.addEventListener('click', startGame);
+    pauseButton.addEventListener('click', togglePause);
+    resetButton.addEventListener('click', () => {
+      stopGame();
+      resetGame();
+      updatePositions();
+      playerScore = 0;
+      computerScore = 0;
+      updateScore();
+    });
+    
+    restartButton.addEventListener('click', () => {
+      playerScore = 0;
+      computerScore = 0;
+      updateScore();
+      resetGame();
+      startGame();
+    });
+    
+    // Mobile controls
+    upButton.addEventListener('touchstart', () => { gameState.keys.ArrowUp = true; });
+    upButton.addEventListener('touchend', () => { gameState.keys.ArrowUp = false; });
+    downButton.addEventListener('touchstart', () => { gameState.keys.ArrowDown = true; });
+    downButton.addEventListener('touchend', () => { gameState.keys.ArrowDown = false; });
+    
+    // Mouse control for player paddle
+    gameContainer.addEventListener('mousemove', (e) => {
+      if (!gameRunning || gamePaused) return;
+      
+      const rect = gameContainer.getBoundingClientRect();
+      const mouseY = e.clientY - rect.top;
+      
+      // Calculate paddle position based on mouse, accounting for paddle height
+      let newY = mouseY - gameState.player.height / 2;
+      
+      // Ensure paddle stays within boundaries
+      newY = Math.max(0, Math.min(newY, gameContainer.clientHeight - gameState.player.height));
+      
+      gameState.player.y = newY;
+    });
+    
+    // Touch control for player paddle
+    gameContainer.addEventListener('touchmove', (e) => {
+      if (!gameRunning || gamePaused) return;
+      e.preventDefault();
+      
+      const rect = gameContainer.getBoundingClientRect();
+      const touchY = e.touches[0].clientY - rect.top;
+      
+      // Calculate paddle position based on touch, accounting for paddle height
+      let newY = touchY - gameState.player.height / 2;
+      
+      // Ensure paddle stays within boundaries
+      newY = Math.max(0, Math.min(newY, gameContainer.clientHeight - gameState.player.height));
+      
+      gameState.player.y = newY;
+    });
+    
+    // Difficulty settings
+    difficultyButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        difficultyButtons.forEach(btn => btn.classList.remove('active'));
+        
+        // Add active class to clicked button
+        button.classList.add('active');
+        
+        // Set difficulty
+        difficulty = button.dataset.difficulty;
+      });
+    });
+    
+    // Window resize handling
+    window.addEventListener('resize', () => {
+      // Update paddle height based on new container size
+      const paddleHeight = gameContainer.clientHeight / 5;
+      playerPaddle.style.height = `${paddleHeight}px`;
+      computerPaddle.style.height = `${paddleHeight}px`;
+      gameState.player.height = paddleHeight;
+      gameState.computer.height = paddleHeight;
+      
+      // Ensure paddles stay within boundaries after resize
+      gameState.player.y = Math.min(gameState.player.y, gameContainer.clientHeight - gameState.player.height);
+      gameState.computer.y = Math.min(gameState.computer.y, gameContainer.clientHeight - gameState.computer.height);
+      
+      updatePositions();
+    });
+  }
+
+  // Handle key events
+  function handleKeyDown(e) {
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      gameState.keys[e.key] = true;
+    }
+  }
+
+  function handleKeyUp(e) {
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      gameState.keys[e.key] = false;
+    }
+  }
+
+  // Start game
+  function startGame() {
+    if (!gameRunning) {
+      gameRunning = true;
+      gamePaused = false;
+      lastTime = performance.now();
+      animationId = requestAnimationFrame(gameLoop);
+      startButton.textContent = 'Restart';
+    } else {
+      stopGame();
+      resetGame();
+      updatePositions();
+      startGame();
+    }
+  }
+
+  // Stop game
+  function stopGame() {
+    gameRunning = false;
+    cancelAnimationFrame(animationId);
+    startButton.textContent = 'Start Game';
+  }
+
+  // Toggle pause state
+  function togglePause() {
+    if (!gameRunning) return;
+    
+    gamePaused = !gamePaused;
+    pauseButton.textContent = gamePaused ? 'Resume' : 'Pause';
+    
+    if (!gamePaused) {
+      lastTime = performance.now();
+      animationId = requestAnimationFrame(gameLoop);
+    }
+  }
+
+  // Main game loop
+  function gameLoop(timestamp) {
+    if (!gameRunning || gamePaused) return;
+
+    // Calculate delta time for smooth animation
+    const deltaTime = timestamp - lastTime;
+    lastTime = timestamp;
+    
+    // Update game state
+    update(deltaTime);
+    
+    // Update visual positions
+    updatePositions();
+    
+    // Continue loop
+    animationId = requestAnimationFrame(gameLoop);
+  }
+
+  // Update game state
+  function update(deltaTime) {
+    const dt = deltaTime / 16.67; // Scale to 60fps
+    
+    // Update player paddle position based on keyboard input
+    if (gameState.keys.ArrowUp) {
+      gameState.player.y = Math.max(0, gameState.player.y - gameState.player.maxSpeed * dt);
+    }
+    if (gameState.keys.ArrowDown) {
+      gameState.player.y = Math.min(gameContainer.clientHeight - gameState.player.height, gameState.player.y + gameState.player.maxSpeed * dt);
+    }
+    
+    // Computer AI movement
+    moveComputerPaddle(dt);
+    
+    // Ball movement
+    moveBall(dt);
+    
+    // Check for score
+    checkScore();
+  }
+
+  // Update positions of game elements
+  function updatePositions() {
+    // Update player paddle position
+    playerPaddle.style.top = `${gameState.player.y}px`;
+    
+    // Update computer paddle position
+    computerPaddle.style.top = `${gameState.computer.y}px`;
+    
+    // Update ball position
+    ball.style.left = `${gameState.ball.x - gameState.ball.size / 2}px`;
+    ball.style.top = `${gameState.ball.y - gameState.ball.size / 2}px`;
+  }
+
+  // Computer AI paddle movement
+  function moveComputerPaddle(dt) {
+    const computerSettings = difficultySettings[difficulty];
+    const paddleCenter = gameState.computer.y + gameState.computer.height / 2;
+    const ballCenter = gameState.ball.y;
+    
+    // Only move toward the ball if it's moving toward the computer
+    if (gameState.ball.speedX > 0) {
+      // Determine target position (add some challenge by not following perfectly)
+      let targetY = ballCenter - gameState.computer.height / 2;
+      
+      // Add randomness to computer movement based on difficulty
+      if (difficulty === 'easy') {
+        targetY += (Math.random() - 0.5) * gameState.computer.height * 0.5;
+      } else if (difficulty === 'medium') {
+        targetY += (Math.random() - 0.5) * gameState.computer.height * 0.3;
+      }
+      
+      // Ensure paddle stays within boundaries
+      targetY = Math.max(0, Math.min(targetY, gameContainer.clientHeight - gameState.computer.height));
+      
+      // Move paddle toward target position
+      if (Math.abs(gameState.computer.y - targetY) > 5) {
+        if (gameState.computer.y < targetY) {
+          gameState.computer.y += computerSettings.computerSpeed * dt;
+        } else {
+          gameState.computer.y -= computerSettings.computerSpeed * dt;
+        }
+      }
+    } else {
+      // Move toward center when ball is moving away
+      const centerY = gameContainer.clientHeight / 2 - gameState.computer.height / 2;
+      if (Math.abs(gameState.computer.y - centerY) > 20) {
+        if (gameState.computer.y < centerY) {
+          gameState.computer.y += computerSettings.computerSpeed * 0.5 * dt;
+        } else {
+          gameState.computer.y -= computerSettings.computerSpeed * 0.5 * dt;
+        }
+      }
+    }
+  }
+
+  // Ball movement and collision detection
+  function moveBall(dt) {
+    const ballSettings = difficultySettings[difficulty];
+    
+    // Apply ball speed with difficulty multiplier
+    gameState.ball.x += gameState.ball.speedX * ballSettings.ballSpeedMultiplier * dt;
+    gameState.ball.y += gameState.ball.speedY * ballSettings.ballSpeedMultiplier * dt;
+    
+    // Collision with top and bottom walls
+    if (gameState.ball.y <= 0 || gameState.ball.y >= gameContainer.clientHeight) {
+      gameState.ball.speedY = -gameState.ball.speedY;
+      gameState.ball.y = gameState.ball.y <= 0 ? 0 : gameContainer.clientHeight;
+      playSound('wall');
+    }
+    
+    // Collision with player paddle
+    if (gameState.ball.speedX < 0 && 
+        gameState.ball.x <= 20 + gameState.player.width &&
+        gameState.ball.y >= gameState.player.y && 
+        gameState.ball.y <= gameState.player.y + gameState.player.height) {
+      
+      // Calculate collision point relative to paddle center (-0.5 to 0.5)
+      const collisionPoint = (gameState.ball.y - (gameState.player.y + gameState.player.height / 2)) / (gameState.player.height / 2);
+      
+      // Calculate new angle based on collision point
+      const angle = collisionPoint * Math.PI / 4; // Maximum 45 degree bounce
+      
+      // Increase speed slightly with each hit
+      const speed = Math.sqrt(gameState.ball.speedX * gameState.ball.speedX + gameState.ball.speedY * gameState.ball.speedY) * 1.05;
+      
+      // Set new velocities
+      gameState.ball.speedX = Math.cos(angle) * speed;
+      gameState.ball.speedY = Math.sin(angle) * speed;
+      
+      // Ensure ball is outside paddle
+      gameState.ball.x = 20 + gameState.player.width + 1;
+      
+      playSound('paddle');
+    }
+    
+    // Collision with computer paddle
+    if (gameState.ball.speedX > 0 && 
+        gameState.ball.x >= gameContainer.clientWidth - 20 - gameState.computer.width &&
+        gameState.ball.y >= gameState.computer.y && 
+        gameState.ball.y <= gameState.computer.y + gameState.computer.height) {
+      
+      // Calculate collision point relative to paddle center (-0.5 to 0.5)
+      const collisionPoint = (gameState.ball.y - (gameState.computer.y + gameState.computer.height / 2)) / (gameState.computer.height / 2);
+      
+      // Calculate new angle based on collision point
+      const angle = collisionPoint * Math.PI / 4; // Maximum 45 degree bounce
+      
+      // Increase speed slightly with each hit
+      const speed = Math.sqrt(gameState.ball.speedX * gameState.ball.speedX + gameState.ball.speedY * gameState.ball.speedY) * 1.05;
+      
+      // Set new velocities
+      gameState.ball.speedX = -Math.cos(angle) * speed;
+      gameState.ball.speedY = Math.sin(angle) * speed;
+      
+      // Ensure ball is outside paddle
+      gameState.ball.x = gameContainer.clientWidth - 20 - gameState.computer.width - 1;
+      
+      playSound('paddle');
+    }
+  }
+
+  // Check for scoring
+  function checkScore() {
+    // Player scores (ball passes right edge)
+    if (gameState.ball.x > gameContainer.clientWidth) {
+      playerScore++;
+      updateScore();
+      playSound('score');
+      
+      if (playerScore >= winningScore) {
+        endGame('You Win!');
+      } else {
+        resetBall();
+      }
+    }
+    
+    // Computer scores (ball passes left edge)
+    if (gameState.ball.x < 0) {
+      computerScore++;
+      updateScore();
+      playSound('score');
+      
+      if (computerScore >= winningScore) {
+        endGame('AI Wins!');
+      } else {
+        resetBall();
+      }
+    }
+  }
+
+  // Reset ball after scoring
+  function resetBall() {
+    // Short pause before resetting
+    gamePaused = true;
+    
+    setTimeout(() => {
+      gameState.ball.x = gameContainer.clientWidth / 2;
+      gameState.ball.y = gameContainer.clientHeight / 2;
+      
+      // Randomize direction, but ensure horizontal movement
+      const angle = (Math.random() - 0.5) * Math.PI / 2; // +/- 45 degrees
+      const direction = playerScore > computerScore ? 1 : -1;
+      
+      // Reset speed to base value
+      const baseSpeed = 5 * difficultySettings[difficulty].ballSpeedMultiplier;
+      gameState.ball.speedX = Math.cos(angle) * baseSpeed * direction;
+      gameState.ball.speedY = Math.sin(angle) * baseSpeed;
+      
+      updatePositions();
+      gamePaused = false;
+    }, 1000);
+  }
+
+  // Update score display
+  function updateScore() {
+    playerScoreElement.textContent = playerScore;
+    computerScoreElement.textContent = computerScore;
+  }
+
+  // Game over
+  function endGame(message) {
+    gameRunning = false;
+    cancelAnimationFrame(animationId);
+    
+    // Show game over panel
+    gameOverTitle.textContent = 'Game Over';
+    gameOverMessage.textContent = message;
+    gameOverPanel.classList.add('active');
+    
+    // Update button text
+    startButton.textContent = 'Start Game';
+  }
+
+  // Play sound effects
+  function playSound(type) {
+    // Create audio context on first interaction (to comply with browser policies)
+    if (!window.audioContext) {
+      try {
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        window.audioContext = new AudioContext();
+      } catch(e) {
+        console.warn('Web Audio API is not supported in this browser');
+        return;
+      }
+    }
+    
+    // Simple sound synthesis based on type
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    // Set sound parameters based on type
+    switch(type) {
+      case 'paddle':
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(500, audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 0.01);
+        gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.1);
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.1);
+        break;
+        
+      case 'wall':
+        oscillator.type = 'triangle';
+        oscillator.frequency.setValueAtTime(300, audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+        gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.05);
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.05);
+        break;
+        
+      case 'score':
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+        oscillator.frequency.linearRampToValueAtTime(1200, audioContext.currentTime + 0.1);
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 0.01);
+        gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.3);
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.3);
+        break;
+    }
+  }
+
+  // Add particles for visual effects
+  function createParticle(x, y, count = 5) {
+    for (let i = 0; i < count; i++) {
+      const particle = document.createElement('div');
+      particle.style.position = 'absolute';
+      particle.style.width = '4px';
+      particle.style.height = '4px';
+      particle.style.borderRadius = '50%';
+      particle.style.backgroundColor = 'var(--accent)';
+      particle.style.left = `${x}px`;
+      particle.style.top = `${y}px`;
+      particle.style.pointerEvents = 'none';
+      
+      // Random direction
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 2 + 1;
+      const vx = Math.cos(angle) * speed;
+      const vy = Math.sin(angle) * speed;
+      
+      gameContainer.appendChild(particle);
+      
+      // Animate and remove
+      let opacity = 1;
+      let size = 4;
+      
+      const animate = () => {
+        if (opacity <= 0) {
+          gameContainer.removeChild(particle);
+          return;
+        }
+        
+        x += vx;
+        y += vy;
+        opacity -= 0.05;
+        size *= 0.95;
+        
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+        particle.style.opacity = opacity;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        requestAnimationFrame(animate);
+      };
+      
+      requestAnimationFrame(animate);
+    }
+  }
+
+  // Add visual feedback effects
+  let lastCollisionTime = 0;
+  const originalUpdate = update;
+  
+  update = function(deltaTime) {
+    const oldBallX = gameState.ball.x;
+    const oldBallY = gameState.ball.y;
+    const oldBallSpeedX = gameState.ball.speedX;
+    
+    // Call original update function
+    originalUpdate(deltaTime);
+    
+    // Check for collision with paddles or walls to create particles
+    if (oldBallSpeedX !== gameState.ball.speedX && performance.now() - lastCollisionTime > 50) {
+      createParticle(gameState.ball.x, gameState.ball.y, 8);
+      lastCollisionTime = performance.now();
+      
+      // Add glow effect to the colliding paddle
+      if (gameState.ball.speedX > 0) {
+        playerPaddle.style.boxShadow = '0 0 15px var(--accent)';
+        setTimeout(() => {
+          playerPaddle.style.boxShadow = '';
+        }, 200);
+      } else {
+        computerPaddle.style.boxShadow = '0 0 15px var(--accent)';
+        setTimeout(() => {
+          computerPaddle.style.boxShadow = '';
+        }, 200);
+      }
+    }
+    
+    // Check for wall collision
+    if (oldBallY <= 0 || oldBallY >= gameContainer.clientHeight) {
+      createParticle(gameState.ball.x, gameState.ball.y, 5);
+    }
+  };
+
+  // Initialize game
+  init();
+});
+        
+
+  </script>
+</body>
+</html>

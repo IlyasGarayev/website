@@ -1,0 +1,7 @@
+Salam. Biz 2 ay ərzində "https://xixiapparel.com/" bu sayta bənzər funksionallığı olan bir tekstil firması üçün sayt qurmalıyıq. Front-end üçün "react.js", back-end üçün isə "c# (.Net framework)" istifadə etməyi nəzərdə tutmuşuq. Domain, hosting xidmətinin ödənişlərini, deploying hissəsini də biz edəcəyik.
+Sayt haqqında ümumi məlumat vermək istəyirəm:
+0. Navigation bar.
+1. Əsas səhifə: 
+a. giriş hissəsində şirkətin adı və onun haqqında qısa məlumat (arxa fonda video (gif))
+b. Bu hissədə kiçik komponentlətin içərisində xidmətlər var
+Biz bu veb tətbiqi bitirib, ərsəyə çıxarmaq üçün nələri etməliyik. Səndən izahlı şəkildə bütün mərhələləri izah etməyini istəyirik.

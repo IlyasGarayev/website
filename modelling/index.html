@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biznes Model Canvas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #0a0a0a;
+            color: white;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            text-align: center;
+            
+            
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        nav a:hover {
+            color: #ff6600;
+        }
+        .container {
+            display: none;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 100px;
+            margin-left: 50px;
+            margin-right: 50px;
+            position: relative;
+            height: 100vh;
+            
+        }
+        .containerFeasiblity {
+            margin-top: 80px;
+            flex-wrap: wrap;
+            margin-left: 300px;
+            justify-content: center;
+            max-width: 900px;
+            height: 100vh;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px;
+            width: 300px;
+            box-shadow: 0 0 15px rgba(255, 140, 0, 0.8);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+            text-align: left;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 140, 0, 1);
+        }
+
+        .card-title {
+            color: orange;
+            font-size: 20px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 140, 0, 1);
+        }
+        .card-content {
+            font-size: 16px;
+        }
+        /*.card {
+            background: #1a1a1a;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(255, 102, 0, 0.5);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            width: 300px;
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        }*/
+        .show {
+            opacity: 1;
+            transform: scale(1) translate(0, 0) !important;
+            position: relative;
+            top: auto;
+            left: auto;
+        }
+
+
+
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(255, 165, 0, 0.5);
+        }
+        h1, h2 {
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: #ff9800;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ff9800;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #ff9800;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a onclick="showPage('canvas')">Biznes Model</a>
+        <a onclick="showPage('feasibility')">Feasibility Study</a>
+        <a onclick="showPage('requirements')">Requirements</a>
+    </nav>
+    
+    <div id="canvas" class="container">
+        <div class="card">
+            <div class="card-title">Problem</div>
+            <div class="card-content">
+                <div>Bələdiyyənin bütün problemləri izləyə bilməməsi</div>
+                <br>
+                <div>Vətəndaşların şikayətlərinin rəsmi qurumlara çətin çatdırılması</div>
+                <br>
+                <div>Vətəndaşların şəhər infrastrukturu barədə məlumatlı olmaması</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">Solution</div>
+            <div class="card-content"> 
+                <div>Vətəndaşlar mobil tətbiq vasitəsilə problemli obyektləri (zədələnmiş oturacaqlar, yol problemləri və s.) foto çəkib göndərə biləcəklər.</div>
+                <br>
+                <div>Sistem avtomatik olaraq problemi aidiyyəti quruma yönləndirəcək.</div>
+                <br>
+                <div>Problemlərin həll statusunu izləmək mümkün olacaq.</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">Key Metrics</div>
+            <div class="card-content"> 
+                <div>Gündəlik/müntəzəm istifadəçi sayı</div>
+                <br>
+                <div>Qeyd olunan problemlərin sayı</div>
+                <br>
+                <div>Həll olunan problemlərin faiz nisbəti</div>
+                <br>
+                <div>Bələdiyyədən alınan rəy və feedback</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">Unique Value Proposition</div>
+            <div class="card-content"> 
+                <div>Sadə interfeys və rahat istifadə</div>
+                <br>
+                <div>Vətəndaşların şəhər idarəçiliyində birbaşa iştirak imkanı</div>
+                <br>
+                <div>Bələdiyyənin effektiv işləməsinə töhfə vermək</div>
+                <br>
+                <div>Şəffaflıq və hesabatlılıq</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">Customer Segments</div>
+            <div class="card-content"> 
+                <div>Şəhər və kənd sakinləri</div>
+                <br>
+                <div>Bələdiyyələr və dövlət qurumları</div>
+                <br>
+                <div>Sosial məsuliyyət layihələri ilə maraqlanan təşkilatlar</div>
+                <br>
+                <div>Aktiv sosial istifadəçilər</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">Channels</div>
+            <div class="card-content"> 
+                <div>Mobil tətbiq (Android, iOS)</div>
+                <br>
+                <div>Veb platforma</div>
+                <br>
+                <div>Sosial media və reklam kampaniyaları</div>
+                <br>
+                <div>Dövlət və bələdiyyə əməkdaşlıqları</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">Cost Structure</div>
+            <div class="card-content"> 
+                <div>Mobil tətbiq və backend inkişafı</div>
+                <br>
+                <div>Server və məlumat bazası xərcləri</div>
+                <br>
+                <div>Marketinq və istifadəçi cəlbi</div>
+                <br>
+                <div>Texniki dəstək və xidmət</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">Revenue Streams</div>
+            <div class="card-content"> 
+                <div>Dövlət və bələdiyyə layihələrindən gələn maliyyə</div>
+                <br>
+                <div>Premium xidmətlər (statistikalar, reklam imkanları və s.)</div>
+                <br>
+                <div>Reklamlar (app daxilində bələdiyyə elanları və s.)</div>
+                <br>
+                <div>Qeyri-hökumət təşkilatları və sponsorluq</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title">Unfair Advantage</div>
+            <div class="card-content"> 
+                <div>Rəqiblərdən fərqli olaraq, birbaşa bələdiyyələrlə inteqrasiya</div>
+                <br>
+                <div>Real vaxtda istifadəçi və bələdiyyə arasındakı əlaqəni gücləndirmək</div>
+                <br>
+                <div>Yerli icmalar üçün sosial məsuliyyət layihələrinə dəstək olmaq</div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="feasibility" class="containerFeasiblity">
+        <div class="section">
+            <h2>1. Introduction</h2>
+            <p>This feasibility study evaluates the viability of developing a mobile and web-based application that allows citizens to report municipal infrastructure issues.</p>
+        </div>
+
+        <div class="section">
+            <h2>2. Market Analysis</h2>
+            <h3>2.1 Problem Statement</h3>
+            <p>Municipalities struggle to track and address all infrastructure issues efficiently.</p>
+            <h3>2.2 Target Market</h3>
+            <p>Urban and rural residents, municipalities, and NGOs.</p>
+            <h3>2.3 Competitor Analysis</h3>
+            <p>Existing solutions lack integration with municipal services and real-time tracking.</p>
+        </div>
+
+        <div class="section">
+            <h2>3. Technical Feasibility</h2>
+            <h3>3.1 Technology Stack</h3>
+            <p>React Native, Node.js, PostgreSQL, Google Maps API.</p>
+            <h3>3.2 Development Timeline</h3>
+            <p>Estimated 12 months development cycle.</p>
+        </div>
+
+        <div class="section">
+            <h2>4. Economic Feasibility</h2>
+            <h3>4.1 Cost Estimation</h3>
+            <table>
+                <tr>
+                    <th>Component</th>
+                    <th>Estimated Cost ($)</th>
+                </tr>
+                <tr>
+                    <td>Development Team</td>
+                    <td>50,000</td>
+                </tr>
+                <tr>
+                    <td>Server & Hosting</td>
+                    <td>10,000</td>
+                </tr>
+                <tr>
+                    <td>Marketing & Outreach</td>
+                    <td>15,000</td>
+                </tr>
+                <tr>
+                    <td>Maintenance & Support</td>
+                    <td>5,000/year</td>
+                </tr>
+                <tr>
+                    <th>Total</th>
+                    <th>80,000+</th>
+                </tr>
+            </table>
+            <h3>4.2 Revenue Streams</h3>
+            <p>Government contracts, premium analytics features, advertisements.</p>
+        </div>
+
+        <div class="section">
+            <h2>5. Operational Feasibility</h2>
+            <h3>5.1 Stakeholders</h3>
+            <p>Citizens, Municipalities, Developers.</p>
+            <h3>5.2 Challenges & Mitigation Strategies</h3>
+            <p>Low adoption - Use social media campaigns.</p>
+        </div>
+
+        <div class="section">
+            <h2>6. Conclusion</h2>
+            <p>This project is feasible and can improve municipal issue reporting significantly.</p>
+        </div>
+    </div>
+    
+    <div id="requirements" class="container">
+        <div class="card">
+            <div class="card-title">Functional Requirements</div>
+            <div class="card-content">
+                <div>Users should be able to register and log in.</div>
+                <br>
+                <div>Users should be able to capture and upload images of issues.</div>
+                <br>
+                <div>The app should allow users to add descriptions and locations for reported issues.</div>
+                <br>
+                <div>The system should categorize and prioritize issues based on severity.</div>
+                <br>
+                <div>Municipalities should receive and track issue reports.</div>
+                <br>
+                <div>Users should be able to view the status of their submitted reports.</div>
+                <br>
+                <div>Notifications should be sent to users about updates on their reports.</div>
+                <br>
+                <div>Admin panel for monitoring reports and managing user interactions.</div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-title"> Non-Functional Requirements</div>
+            <div class="card-content">
+                <div>The system should handle up to 10,000 concurrent users.</div>
+                <br>
+                <div>The response time should not exceed 2 seconds for main operations.</div>
+                <br>
+                <div>Secure data encryption should be implemented for user data.</div>
+                <br>
+                <div>The app should be accessible on Android, iOS, and web platforms.</div>
+                <br>
+                <div>The system should maintain 99.9% uptime.</div>
+                <br>
+                <div>Regular backups should be taken to prevent data loss.</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showPage(pageId) {
+            let pages = document.querySelectorAll('.container,  .containerFeasiblity');
+            pages.forEach(page => page.style.display = 'none');
+            let activePage = document.getElementById(pageId);
+            activePage.style.display = 'flex';
+            animateCards(activePage);
+        }
+        
+        function animateCards(container) {
+            let cards = container.querySelectorAll('.card');
+            /*cards.forEach((card, index) => {
+                setTimeout(() => {
+                    let angle = (index % 2 === 0 ? 1 : -1) * (Math.random() * 10);
+                    let xOffset = (index % 2 === 0 ? -1 : 1) * (Math.random() * 200 + 100);
+                    let yOffset = (Math.random() * 150 - 75);
+                    card.style.transform = `translate(${xOffset}px, ${yOffset}px) rotate(${angle}deg)`;
+                    card.style.opacity = '1';
+                }, index * 200);
+            });*/
+            let positions = [
+                { top: "10%", left: "10%" },
+                { top: "10%", left: "50%" },
+                { top: "10%", left: "90%" },
+                { top: "50%", left: "10%" },
+                { top: "50%", left: "50%" },
+                { top: "50%", left: "90%" },
+                { top: "90%", left: "10%" },
+                { top: "90%", left: "50%" },
+                { top: "90%", left: "90%" }
+            ];
+
+            setTimeout(() => {
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        let pos = positions[index % positions.length];
+                        card.style.top = pos.top;
+                        card.style.left = pos.left;
+                        card.style.transform = "translate(-50%, -50%) scale(1)";
+                    }, index * 300);
+                });
+            }, 1500);
+        }
+        
+        window.onload = function() {
+            showPage('canvas');
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Master - Complete Preparation Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        main {
+            padding: 2rem 0;
+        }
+
+        .hero {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .quiz-container {
+            margin: 1rem 0;
+        }
+
+        .question {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .question h4 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .options {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .options li {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .options li:hover {
+            background: #e9ecef;
+        }
+
+        .options input {
+            margin-right: 0.5rem;
+        }
+
+        .score-calculator {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .score-input {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .score-input label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .score-input input {
+            padding: 0.5rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .score-input input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #e8f5e8;
+            border-radius: 10px;
+            border-left: 4px solid #28a745;
+        }
+
+        .writing-prompt {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border-left: 4px solid #764ba2;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .word-count {
+            text-align: right;
+            margin-top: 0.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .study-materials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .material-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .material-item h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .material-item p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">IELTS Master</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#practice">Practice</a></li>
+                <li><a href="#tools">Tools</a></li>
+                <li><a href="#resources">Resources</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section id="home" class="hero">
+            <h1>Master Your IELTS Journey</h1>
+            <p>Comprehensive preparation tools, practice tests, and resources to achieve your target band score</p>
+        </section>
+
+        <section id="features" class="features">
+            <div class="feature-card">
+                <h3>🎯 Practice Tests</h3>
+                <p>Test your skills with realistic IELTS practice questions covering all four modules: Reading, Writing, Listening, and Speaking.</p>
+                <button class="btn" onclick="openModal('practiceModal')">Start Practice</button>
+            </div>
+
+            <div class="feature-card">
+                <h3>📊 Band Score Calculator</h3>
+                <p>Calculate your overall IELTS band score based on your individual module scores with our accurate calculator.</p>
+                <button class="btn" onclick="openModal('calculatorModal')">Calculate Score</button>
+            </div>
+
+            <div class="feature-card">
+                <h3>✍️ Writing Practice</h3>
+                <p>Practice IELTS Writing Task 1 and Task 2 with sample prompts and word count tracking to improve your writing skills.</p>
+                <button class="btn" onclick="openModal('writingModal')">Practice Writing</button>
+            </div>
+
+            <div class="feature-card">
+                <h3>📚 Study Materials</h3>
+                <p>Access comprehensive study guides, vocabulary lists, grammar tips, and exam strategies for all IELTS modules.</p>
+                <button class="btn" onclick="openModal('materialsModal')">View Materials</button>
+            </div>
+
+            <div class="feature-card">
+                <h3>🗣️ Speaking Practice</h3>
+                <p>Prepare for the speaking test with common topics, sample questions, and tips for achieving fluency and coherence.</p>
+                <button class="btn" onclick="openModal('speakingModal')">Practice Speaking</button>
+            </div>
+
+            <div class="feature-card">
+                <h3>⏰ Study Planner</h3>
+                <p>Create a personalized study schedule based on your target test date and current proficiency level.</p>
+                <button class="btn" onclick="openModal('plannerModal')">Plan Study</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Practice Test Modal -->
+    <div id="practiceModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('practiceModal')">&times;</span>
+            <h2>IELTS Reading Practice Test</h2>
+            <div class="quiz-container">
+                <div class="question">
+                    <h4>Question 1: What is the main purpose of the IELTS exam?</h4>
+                    <ul class="options">
+                        <li><input type="radio" name="q1" value="a"> To test general English knowledge</li>
+                        <li><input type="radio" name="q1" value="b"> To assess English proficiency for academic or immigration purposes</li>
+                        <li><input type="radio" name="q1" value="c"> To certify teaching qualifications</li>
+                        <li><input type="radio" name="q1" value="d"> To evaluate business English skills</li>
+                    </ul>
+                </div>
+                <div class="question">
+                    <h4>Question 2: How many modules does the IELTS test consist of?</h4>
+                    <ul class="options">
+                        <li><input type="radio" name="q2" value="a"> 3 modules</li>
+                        <li><input type="radio" name="q2" value="b"> 4 modules</li>
+                        <li><input type="radio" name="q2" value="c"> 5 modules</li>
+                        <li><input type="radio" name="q2" value="d"> 6 modules</li>
+                    </ul>
+                </div>
+                <div class="question">
+                    <h4>Question 3: What is the highest band score possible in IELTS?</h4>
+                    <ul class="options">
+                        <li><input type="radio" name="q3" value="a"> 8</li>
+                        <li><input type="radio" name="q3" value="b"> 9</li>
+                        <li><input type="radio" name="q3" value="c"> 10</li>
+                        <li><input type="radio" name="q3" value="d"> 12</li>
+                    </ul>
+                </div>
+                <button class="btn" onclick="checkAnswers()">Check Answers</button>
+                <div id="practiceResult"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Score Calculator Modal -->
+    <div id="calculatorModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('calculatorModal')">&times;</span>
+            <h2>IELTS Band Score Calculator</h2>
+            <p>Enter your individual module scores to calculate your overall band score:</p>
+            <div class="score-calculator">
+                <div class="score-input">
+                    <label for="listening">Listening:</label>
+                    <input type="number" id="listening" min="0" max="9" step="0.5" placeholder="0.0">
+                </div>
+                <div class="score-input">
+                    <label for="reading">Reading:</label>
+                    <input type="number" id="reading" min="0" max="9" step="0.5" placeholder="0.0">
+                </div>
+                <div class="score-input">
+                    <label for="writing">Writing:</label>
+                    <input type="number" id="writing" min="0" max="9" step="0.5" placeholder="0.0">
+                </div>
+                <div class="score-input">
+                    <label for="speaking">Speaking:</label>
+                    <input type="number" id="speaking" min="0" max="9" step="0.5" placeholder="0.0">
+                </div>
+            </div>
+            <button class="btn" onclick="calculateBandScore()">Calculate Overall Score</button>
+            <div id="scoreResult"></div>
+        </div>
+    </div>
+
+    <!-- Writing Practice Modal -->
+    <div id="writingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('writingModal')">&times;</span>
+            <h2>IELTS Writing Practice</h2>
+            <div class="writing-prompt">
+                <h3>Task 2 Practice Prompt:</h3>
+                <p><strong>Some people believe that technology has made our lives more complicated, while others think it has made life easier. Discuss both views and give your own opinion.</strong></p>
+                <p><em>Write at least 250 words. You should spend about 40 minutes on this task.</em></p>
+            </div>
+            <textarea id="writingText" placeholder="Start writing your essay here..."></textarea>
+            <div class="word-count">Word count: <span id="wordCount">0</span></div>
+            <button class="btn" onclick="getWritingFeedback()">Get Basic Feedback</button>
+            <div id="writingFeedback"></div>
+        </div>
+    </div>
+
+    <!-- Study Materials Modal -->
+    <div id="materialsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('materialsModal')">&times;</span>
+            <h2>IELTS Study Materials</h2>
+            <div class="study-materials">
+                <div class="material-item">
+                    <h4>📖 Reading Strategies</h4>
+                    <p>Learn skimming, scanning, and detailed reading techniques. Practice identifying main ideas, supporting details, and inference questions.</p>
+                </div>
+                <div class="material-item">
+                    <h4>🎧 Listening Tips</h4>
+                    <p>Improve your note-taking skills, learn to predict answers, and practice identifying keywords and paraphrasing.</p>
+                </div>
+                <div class="material-item">
+                    <h4>✍️ Writing Guidelines</h4>
+                    <p>Master essay structures, learn linking words, and understand Task 1 data description and Task 2 essay formats.</p>
+                </div>
+                <div class="material-item">
+                    <h4>🗣️ Speaking Techniques</h4>
+                    <p>Practice fluency, coherence, pronunciation, and vocabulary. Learn how to extend answers and handle difficult questions.</p>
+                </div>
+                <div class="material-item">
+                    <h4>📝 Grammar Essentials</h4>
+                    <p>Review complex sentences, conditionals, passive voice, and other advanced grammar structures commonly tested.</p>
+                </div>
+                <div class="material-item">
+                    <h4>🔤 Vocabulary Builder</h4>
+                    <p>Expand your academic vocabulary with topic-specific word lists for education, environment, technology, and more.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Speaking Practice Modal -->
+    <div id="speakingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('speakingModal')">&times;</span>
+            <h2>IELTS Speaking Practice</h2>
+            <div class="question">
+                <h3>Part 1 - Introduction Questions</h3>
+                <p><strong>Practice answering these common questions:</strong></p>
+                <ul style="list-style: disc; margin-left: 2rem;">
+                    <li>Can you tell me about your hometown?</li>
+                    <li>What do you do for work or study?</li>
+                    <li>What are your hobbies and interests?</li>
+                    <li>How do you usually spend your weekends?</li>
+                </ul>
+            </div>
+            <div class="question">
+                <h3>Part 2 - Cue Card Topic</h3>
+                <div class="writing-prompt">
+                    <p><strong>Describe a memorable journey you have taken.</strong></p>
+                    <p>You should say:</p>
+                    <ul style="list-style: disc; margin-left: 1rem;">
+                        <li>Where you went</li>
+                        <li>Who you traveled with</li>
+                        <li>What made it memorable</li>
+                        <li>And explain how you felt about this journey</li>
+                    </ul>
+                    <p><em>You have 1 minute to prepare and 2 minutes to speak.</em></p>
+                </div>
+            </div>
+            <div class="question">
+                <h3>Speaking Tips:</h3>
+                <ul style="list-style: disc; margin-left: 2rem;">
+                    <li>Use a variety of vocabulary and avoid repetition</li>
+                    <li>Speak clearly and at a natural pace</li>
+                    <li>Use linking words to connect your ideas</li>
+                    <li>Give detailed examples to support your points</li>
+                    <li>Practice expressing opinions and giving reasons</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Study Planner Modal -->
+    <div id="plannerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('plannerModal')">&times;</span>
+            <h2>IELTS Study Planner</h2>
+            <div class="score-calculator">
+                <div class="score-input">
+                    <label for="testDate">Test Date:</label>
+                    <input type="date" id="testDate">
+                </div>
+                <div class="score-input">
+                    <label for="currentLevel">Current Level:</label>
+                    <select id="currentLevel" style="padding: 0.5rem; border: 2px solid #ddd; border-radius: 5px;">
+                        <option value="4">Band 4 - Beginner</option>
+                        <option value="5">Band 5 - Intermediate</option>
+                        <option value="6">Band 6 - Upper-Intermediate</option>
+                        <option value="7">Band 7 - Advanced</option>
+                        <option value="8">Band 8 - Expert</option>
+                    </select>
+                </div>
+                <div class="score-input">
+                    <label for="targetScore">Target Score:</label>
+                    <select id="targetScore" style="padding: 0.5rem; border: 2px solid #ddd; border-radius: 5px;">
+                        <option value="6">Band 6.0</option>
+                        <option value="6.5">Band 6.5</option>
+                        <option value="7">Band 7.0</option>
+                        <option value="7.5">Band 7.5</option>
+                        <option value="8">Band 8.0</option>
+                        <option value="8.5">Band 8.5</option>
+                        <option value="9">Band 9.0</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn" onclick="generateStudyPlan()">Generate Study Plan</button>
+            <div id="studyPlan"></div>
+        </div>
+    </div>
+
+    <script>
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Practice test functionality
+        function checkAnswers() {
+            const answers = {q1: 'b', q2: 'b', q3: 'b'};
+            let score = 0;
+            let total = 3;
+
+            for (let question in answers) {
+                const selected = document.querySelector(`input[name="${question}"]:checked`);
+                if (selected && selected.value === answers[question]) {
+                    score++;
+                }
+            }
+
+            const percentage = Math.round((score / total) * 100);
+            const resultDiv = document.getElementById('practiceResult');
+            resultDiv.innerHTML = `
+                <div class="result">
+                    <h3>Your Score: ${score}/${total} (${percentage}%)</h3>
+                    <p><strong>Correct Answers:</strong></p>
+                    <ul style="list-style: disc; margin-left: 2rem;">
+                        <li>Q1: To assess English proficiency for academic or immigration purposes</li>
+                        <li>Q2: 4 modules (Reading, Writing, Listening, Speaking)</li>
+                        <li>Q3: 9 (Band 9 is the highest score)</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        // Band score calculator
+        function calculateBandScore() {
+            const listening = parseFloat(document.getElementById('listening').value) || 0;
+            const reading = parseFloat(document.getElementById('reading').value) || 0;
+            const writing = parseFloat(document.getElementById('writing').value) || 0;
+            const speaking = parseFloat(document.getElementById('speaking').value) || 0;
+
+            if (listening === 0 || reading === 0 || writing === 0 || speaking === 0) {
+                document.getElementById('scoreResult').innerHTML = 
+                    '<div class="result"><p style="color: #dc3545;">Please enter all four module scores.</p></div>';
+                return;
+            }
+
+            const average = (listening + reading + writing + speaking) / 4;
+            const overallBand = Math.round(average * 2) / 2; // Round to nearest 0.5
+
+            let description = '';
+            if (overallBand >= 8.5) description = 'Expert User';
+            else if (overallBand >= 7.5) description = 'Very Good User';
+            else if (overallBand >= 6.5) description = 'Competent User';
+            else if (overallBand >= 5.5) description = 'Modest User';
+            else if (overallBand >= 4.5) description = 'Limited User';
+            else description = 'Extremely Limited User';
+
+            document.getElementById('scoreResult').innerHTML = `
+                <div class="result">
+                    <h3>Overall Band Score: ${overallBand}</h3>
+                    <p><strong>Level:</strong> ${description}</p>
+                    <p><strong>Individual Scores:</strong></p>
+                    <ul style="list-style: none; margin-left: 0;">
+                        <li>• Listening: ${listening}</li>
+                        <li>• Reading: ${reading}</li>
+                        <li>• Writing: ${writing}</li>
+                        <li>• Speaking: ${speaking}</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        // Writing practice word count
+        document.addEventListener('DOMContentLoaded', function() {
+            const writingText = document.getElementById('writingText');
+            if (writingText) {
+                writingText.addEventListener('input', function() {
+                    const words = this.value.trim().split(/\s+/).filter(word => word.length > 0);
+                    document.getElementById('wordCount').textContent = words.length;
+                });
+            }
+        });
+
+        function getWritingFeedback() {
+            const text = document.getElementById('writingText').value;
+            const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+            
+            if (wordCount < 50) {
+                document.getElementById('writingFeedback').innerHTML = 
+                    '<div class="result"><p style="color: #dc3545;">Please write at least 50 words to get feedback.</p></div>';
+                return;
+            }
+
+            let feedback = '<div class="result"><h3>Basic Feedback:</h3><ul style="list-style: disc; margin-left: 2rem;">';
+            
+            if (wordCount >= 250) {
+                feedback += '<li style="color: #28a745;">✓ Good word count for Task 2 (250+ words required)</li>';
+            } else {
+                feedback += '<li style="color: #dc3545;">✗ Word count below 250 - aim for at least 250 words</li>';
+            }
+
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+            if (sentences.length >= 4) {
+                feedback += '<li style="color: #28a745;">✓ Good variety of sentence structures</li>';
+            } else {
+                feedback += '<li style="color: #ffc107;">⚠ Try to use more varied sentence structures</li>';
+            }
+
+            const paragraphs = text.split(/\n\s*\n/).filter(p => p.trim().length > 0);
+            if (paragraphs.length >= 3) {
+                feedback += '<li style="color: #28a745;">✓ Well-organized with multiple paragraphs</li>';
+            } else {
+                feedback += '<li style="color: #ffc107;">⚠ Consider organizing into more paragraphs (introduction, body, conclusion)</li>';
+            }
+
+            feedback += '</ul></div>';
+            document.getElementById('writingFeedback').innerHTML = feedback;
+        }
+
+        // Study planner
+        function generateStudyPlan() {
+            const testDate = new Date(document.getElementById('testDate').value);
+            const currentLevel = parseInt(document.getElementById('currentLevel').value);
+            const targetScore = parseFloat(document.getElementById('targetScore').value);
+            
+            if (!testDate || isNaN(testDate)) {
+                document.getElementById('studyPlan').innerHTML = 
+                    '<div class="result"><p style="color: #dc3545;">Please select a test date.</p></div>';
+                return;
+            }
+
+            const today = new Date();
+            const daysUntilTest = Math.ceil((testDate - today) / (1000 * 60 * 60 * 24));
+            
+            if (daysUntilTest <= 0) {
+                document.getElementById('studyPlan').innerHTML = 
+                    '<div class="result"><p style="color: #dc3545;">Please select a future test date.</p></div>';
+                return;
+            }
+
+            const improvement = targetScore - currentLevel;
+            let hoursNeeded = Math.max(improvement * 50, 20); // Rough estimate
+            const dailyHours = Math.ceil(hoursNeeded / daysUntilTest);
+
+            let plan = `<div class="result"><h3>Your Personalized Study Plan</h3>`;
+            plan += `<p><strong>Days until test:</strong> ${daysUntilTest}</p>`;
+            plan += `<p><strong>Recommended daily study:</strong> ${Math.min(dailyHours, 4)} hours</p>`;
+            plan += `<h4>Weekly Schedule:</h4>`;
+            plan += `<ul style="list-style: disc; margin-left: 2rem;">`;
+            plan += `<li><strong>Monday:</strong> Reading practice (1 hour) + Vocabulary building (30 min)</li>`;
+            plan += `<li><strong>Tuesday:</strong> Listening practice (1 hour) + Grammar review (30 min)</li>`;
+            plan += `<li><strong>Wednesday:</strong> Writing Task 1 practice (45 min) + Speaking practice (45 min)</li>`;
+            plan += `<li><strong>Thursday:</strong> Writing Task 2 practice (1 hour) + Reading strategies (30 min)</li>`;
+            plan += `<li><strong>Friday:</strong> Full practice test (2.5 hours)</li>`;
+            plan += `<li><strong>Saturday:</strong> Review mistakes + Weak areas focus (1.5 hours)</li>`;
+            plan += `<li><strong>Sunday:</strong> Speaking practice + Relaxation (1 hour)</li>`;
+            plan += `</ul>`;
+            
+            if (improvement > 1.5) {
+                plan += `<p style="color: #ffc107;"><strong>Note:</strong> Your target requires significant improvement. Consider extending your preparation time or getting additional tutoring.</p>`;
+            } else if (improvement > 0.5) {
+                plan += `<p style="color: #28a745;"><strong>Note:</strong> Your goal is achievable with consistent daily practice.</p>`;
+            } else {
+                plan += `<p style="color: #28a745;"><strong>Note:</strong> You're close to your target! Focus on maintaining your level and practicing test strategies.</p>`;
+            }
+            
+            plan += `</div>`;
+            document.getElementById('studyPlan').innerHTML = plan;
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add some interactive animations
+        const cards = document.querySelectorAll('.feature-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        cards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Add typing effect to hero text
+        function typeWriter(text, element, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Initialize typing effect on load
+        window.addEventListener('load', function() {
+            const heroTitle = document.querySelector('.hero h1');
+            const heroText = document.querySelector('.hero p');
+            
+            setTimeout(() => {
+                typeWriter('Master Your IELTS Journey', heroTitle, 80);
+            }, 500);
+            
+            setTimeout(() => {
+                typeWriter('Comprehensive preparation tools, practice tests, and resources to achieve your target band score', heroText, 30);
+            }, 3000);
+        });
+
+        // Add progress tracking for practice tests
+        let practiceHistory = [];
+
+        function savePracticeResult(score, total) {
+            const result = {
+                date: new Date().toLocaleDateString(),
+                score: score,
+                total: total,
+                percentage: Math.round((score / total) * 100)
+            };
+            practiceHistory.push(result);
+            
+            // Keep only last 10 results
+            if (practiceHistory.length > 10) {
+                practiceHistory = practiceHistory.slice(-10);
+            }
+        }
+
+        // Enhanced practice test with progress tracking
+        function checkAnswersEnhanced() {
+            const answers = {q1: 'b', q2: 'b', q3: 'b'};
+            let score = 0;
+            let total = 3;
+
+            for (let question in answers) {
+                const selected = document.querySelector(`input[name="${question}"]:checked`);
+                if (selected && selected.value === answers[question]) {
+                    score++;
+                }
+            }
+
+            savePracticeResult(score, total);
+            
+            const percentage = Math.round((score / total) * 100);
+            const resultDiv = document.getElementById('practiceResult');
+            
+            let progressChart = '';
+            if (practiceHistory.length > 1) {
+                progressChart = '<h4>Your Progress:</h4>';
+                practiceHistory.slice(-5).forEach((result, index) => {
+                    const barWidth = result.percentage;
+                    progressChart += `
+                        <div style="margin: 0.5rem 0;">
+                            <span style="display: inline-block; width: 80px;">${result.date}:</span>
+                            <div style="display: inline-block; width: 200px; background: #f0f0f0; border-radius: 10px; overflow: hidden;">
+                                <div style="width: ${barWidth}%; height: 20px; background: linear-gradient(45deg, #667eea, #764ba2); border-radius: 10px;"></div>
+                            </div>
+                            <span style="margin-left: 10px;">${result.percentage}%</span>
+                        </div>
+                    `;
+                });
+            }
+            
+            resultDiv.innerHTML = `
+                <div class="result">
+                    <h3>Your Score: ${score}/${total} (${percentage}%)</h3>
+                    <p><strong>Correct Answers:</strong></p>
+                    <ul style="list-style: disc; margin-left: 2rem;">
+                        <li>Q1: To assess English proficiency for academic or immigration purposes</li>
+                        <li>Q2: 4 modules (Reading, Writing, Listening, Speaking)</li>
+                        <li>Q3: 9 (Band 9 is the highest score)</li>
+                    </ul>
+                    ${progressChart}
+                </div>
+            `;
+        }
+
+        // Add vocabulary flashcards feature
+        const vocabularyWords = [
+            {word: "Ubiquitous", meaning: "Present, appearing, or found everywhere", example: "Smartphones have become ubiquitous in modern society."},
+            {word: "Meticulous", meaning: "Showing great attention to detail; very careful", example: "She was meticulous in her research methodology."},
+            {word: "Pragmatic", meaning: "Dealing with things sensibly and realistically", example: "We need a pragmatic approach to solve this problem."},
+            {word: "Eloquent", meaning: "Fluent or persuasive in speaking or writing", example: "The speaker gave an eloquent presentation on climate change."},
+            {word: "Ambiguous", meaning: "Open to more than one interpretation; unclear", example: "The contract terms were ambiguous and needed clarification."}
+        ];
+
+        function showRandomVocabulary() {
+            const randomWord = vocabularyWords[Math.floor(Math.random() * vocabularyWords.length)];
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'block';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 500px;">
+                    <span class="close" onclick="this.parentElement.parentElement.remove()">&times;</span>
+                    <h2>📚 Vocabulary Builder</h2>
+                    <div style="text-align: center; padding: 2rem;">
+                        <h3 style="color: #667eea; font-size: 2rem; margin-bottom: 1rem;">${randomWord.word}</h3>
+                        <p style="font-size: 1.2rem; margin-bottom: 1rem; color: #666;"><strong>Meaning:</strong> ${randomWord.meaning}</p>
+                        <p style="font-style: italic; color: #888;"><strong>Example:</strong> ${randomWord.example}</p>
+                        <button class="btn" onclick="showRandomVocabulary(); this.parentElement.parentElement.parentElement.remove();" style="margin-top: 1rem;">Next Word</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Add floating vocabulary button
+        const vocabButton = document.createElement('button');
+        vocabButton.innerHTML = '📚';
+        vocabButton.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        `;
+        vocabButton.addEventListener('click', showRandomVocabulary);
+        vocabButton.addEventListener('mouseenter', () => {
+            vocabButton.style.transform = 'scale(1.1)';
+        });
+        vocabButton.addEventListener('mouseleave', () => {
+            vocabButton.style.transform = 'scale(1)';
+        });
+        vocabButton.title = 'Practice Vocabulary';
+        document.body.appendChild(vocabButton);
+    </script>
+</body>
+</html>

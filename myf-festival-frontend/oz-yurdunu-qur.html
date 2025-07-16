@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Öz Yurdunu Qur - Milli Yaylaq Festivalı</title>
+    <meta name="description" content="Dövlət dəstəyi ilə öz evini qurmaq üçün müraciət et">
+    <meta name="keywords" content="ev, yurd, dövlət, dəstək, müraciət">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="./css/style.css" rel="stylesheet">
+    
+    <!-- Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js?render=YOUR_RECAPTCHA_SITE_KEY"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <div id="navbar-container"></div>
+    
+    <!-- Page Header -->
+    <section class="content-section bg-green-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="section-title text-center" id="page-title">Öz Yurdunu Qur</h1>
+                    <p class="text-center lead" id="page-subtitle">Dövlət dəstəyi ilə öz evini qurmaq imkanı</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- Information Section -->
+        <section class="content-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Proqram Haqqında
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    "Öz Yurdunu Qur" proqramı dövlət tərəfindən həyata keçirilən sosial yardım 
+                                    proqramıdır. Bu proqram çərçivəsində vətəndaşlara öz evlərini qurmaq üçün 
+                                    maliyyə dəstəyi göstərilir.
+                                </p>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-check text-success me-2"></i>Güzəştli kredit şərtləri</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Dövlət dotasiyası</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Texniki dəstək</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Hüquqi məsləhətlər</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Application Form Section -->
+        <section class="content-section bg-green-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card">
+                            <div class="card-header bg-green text-white">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-file-alt me-2"></i>
+                                    Müraciət Formu
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="oz-yurdunu-qur-form" novalidate>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="firstName" class="form-label">
+                                                Ad <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" id="firstName" name="firstName" required>
+                                            <div class="invalid-feedback">
+                                                Adınızı daxil edin
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="lastName" class="form-label">
+                                                Soyad <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" id="lastName" name="lastName" required>
+                                            <div class="invalid-feedback">
+                                                Soyadınızı daxil edin
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="phoneNumber" class="form-label">
+                                            Əlaqə Nömrəsi <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" 
+                                               placeholder="+994 XX XXX XX XX" required>
+                                        <div class="invalid-feedback">
+                                            Əlaqə nömrənizi daxil edin
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">
+                                            E-poçt Ünvanı
+                                        </label>
+                                        <input type="email" class="form-control" id="email" name="email" 
+                                               placeholder="example@email.com">
+                                        <div class="invalid-feedback">
+                                            Düzgün e-poçt ünvanı daxil edin
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="address" class="form-label">
+                                            Yaşayış Ünvanı <span class="text-danger">*</span>
+                                        </label>
+                                        <textarea class="form-control" id="address" name="address" rows="3" 
+                                                  placeholder="Tam ünvanı daxil edin" required></textarea>
+                                        <div class="invalid-feedback">
+                                            Yaşayış ünvanınızı daxil edin
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="idCardFront" class="form-label">
+                                            Şəxsiyyət Vəsiqəsinin Ön Hissəsinin Şəkli <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="file" class="form-control" id="idCardFront" name="idCardFront" 
+                                               accept="image/jpeg,image/png,image/jpg" required>
+                                        <div class="form-text">
+                                            Yalnız JPG, JPEG, PNG formatında fayllar qəbul edilir. Maksimum ölçü: 5MB
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Şəxsiyyət vəsiqəsinin şəklini yükləyin
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="familySize" class="form-label">
+                                            Ailə Üzvlərinin Sayı <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-select" id="familySize" name="familySize" required>
+                                            <option value="">Seçin</option>
+                                            <option value="1">1 nəfər</option>
+                                            <option value="2">2 nəfər</option>
+                                            <option value="3">3 nəfər</option>
+                                            <option value="4">4 nəfər</option>
+                                            <option value="5">5 nəfər</option>
+                                            <option value="6">6+ nəfər</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Ailə üzvlərinin sayını seçin
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="monthlyIncome" class="form-label">
+                                            Aylıq Gəlir (AZN) <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="number" class="form-control" id="monthlyIncome" name="monthlyIncome" 
+                                               min="0" step="0.01" required>
+                                        <div class="invalid-feedback">
+                                            Aylıq gəlirinizi daxil edin
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="additionalInfo" class="form-label">
+                                            Əlavə Məlumat
+                                        </label>
+                                        <textarea class="form-control" id="additionalInfo" name="additionalInfo" rows="4" 
+                                                  placeholder="Əlavə məlumat və ya xüsusi tələblər"></textarea>
+                                    </div>
+                                    
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input" id="termsAccept" name="termsAccept" required>
+                                        <label class="form-check-label" for="termsAccept">
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">
+                                                Şərtlər və qaydalar
+                                            </a>
+                                            ilə razıyam <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="invalid-feedback">
+                                            Şərtləri qəbul etməlisiniz
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="form-text">
+                                            <i class="fas fa-shield-alt me-2"></i>
+                                            Bu sayt Google reCAPTCHA ilə qorunur
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-green btn-lg" id="submitBtn">
+                                            <i class="fas fa-paper-plane me-2"></i>
+                                            <span id="submitBtnText">Müraciət Et</span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Success/Error Messages -->
+        <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header" id="messageModalHeader">
+                        <h5 class="modal-title" id="messageModalLabel">Nəticə</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <i id="messageIcon" class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                            <p id="messageText">Müraciətiniz uğurla göndərildi!</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Bağla</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Terms Modal -->
+        <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="termsModalLabel">Şərtlər və Qaydalar</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h6>1. Ümumi Şərtlər</h6>
+                        <p>Bu proqrama müraciət etməklə siz aşağıdakı şərtləri qəbul edirsiniz:</p>
+                        <ul>
+                            <li>Təqdim etdiyiniz məlumatların doğru olması</li>
+                            <li>Tələb olunan sənədlərin tam təqdim edilməsi</li>
+                            <li>Proqram qaydalarına əməl edilməsi</li>
+                        </ul>
+                        
+                        <h6>2. Tələblər</h6>
+                        <ul>
+                            <li>Azərbaycan Respublikasının vətəndaşı olmaq</li>
+                            <li>18 yaşından yuxarı olmaq</li>
+                            <li>Daimi yaşayış yeri olmaq</li>
+                        </ul>
+                        
+                        <h6>3. Məlumatların Təhlükəsizliyi</h6>
+                        <p>Təqdim etdiyiniz şəxsi məlumatlar qanunvericiliyə uyğun olaraq qorunur və yalnız müraciətin emal edilməsi üçün istifadə olunur.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bağla</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <div id="footer-container"></div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="./js/main.js"></script>
+    <script src="./js/api.js"></script>
+    <script src="./js/oz-yurdunu-qur.js"></script>
+</body>
+</html>

@@ -1,292 +1,272 @@
-# Milli Yaylaq Festivalı - Front-End Website
+# Milli Yaylaq Festivalı Website
 
-## Project Overview
+A modern, responsive, and multilingual website for the National Highland Festival of Azerbaijan built with React, Next.js, and Tailwind CSS.
 
-This is a complete front-end website for the "Milli Yaylaq Festivalı" (National Highland Festival) with full multi-language support and responsive design. The website is built using modern web technologies including HTML5, CSS3, Vanilla JavaScript, and Bootstrap 5.
+## 🎯 Features
 
-## 🚀 Key Features
+- **Multilingual Support**: Available in Azerbaijani (az), English (en), and Russian (ru)
+- **Dynamic Language Routing**: URL-based language switching with `/[lang]/` structure
+- **Responsive Design**: Mobile-first approach with Tailwind CSS
+- **Modern UI/UX**: Clean, elegant design with smooth animations
+- **Mock API Integration**: Simulated backend with realistic data
+- **Full Festival Management**: News, programs, partners, gallery, and more
 
-- **Multi-language Support**: Full support for Azerbaijani (az), English (en), and Russian (ru)
-- **Responsive Design**: Mobile-first approach with Bootstrap 5
-- **Green Theme**: Comprehensive green color scheme throughout the website
-- **Full-width Hero Carousel**: Impressive image slider on the homepage
-- **Mock API Integration**: Simulated API calls with realistic data
-- **Google reCAPTCHA v3**: Integrated form protection
-- **Interactive Components**: Dynamic content loading and smooth animations
-- **Accessibility**: ARIA attributes and keyboard navigation support
+## 🚀 Tech Stack
+
+- **Frontend**: React 18, Next.js 14 (App Router)
+- **Styling**: Tailwind CSS with custom festival theme
+- **Language**: TypeScript/JavaScript
+- **Animation**: CSS transitions and react-intersection-observer
+- **Icons**: Heroicons (SVG)
+- **Deployment**: Vercel-ready
 
 ## 📁 Project Structure
 
 ```
 myf-festival-frontend/
-├── index.html                  # Main redirect page
-├── az.html                     # Azerbaijani homepage
-├── en.html                     # English homepage  
-├── ru.html                     # Russian homepage
-├── about.html                  # About Festival page
-├── oz-yurdunu-qur.html         # "Build Your Home" form page
-├── 
-├── css/
-│   └── style.css               # Custom styles with green theme
-├── 
-├── js/
-│   ├── main.js                 # Common utilities and language handling
-│   ├── api.js                  # API simulation with mock data
-│   ├── home.js                 # Homepage functionality
-│   ├── about.js                # About page functionality
-│   └── oz-yurdunu-qur.js       # Form validation and submission
-├── 
-├── translations/
-│   ├── az.json                 # Azerbaijani translations
-│   ├── en.json                 # English translations
-│   └── ru.json                 # Russian translations
-├── 
-├── assets/
-│   ├── images/                 # Image assets (placeholders)
-│   └── fonts/                  # Font files
-└── 
-└── lib/
-    ├── bootstrap/              # Bootstrap CSS/JS (CDN used)
-    └── recaptcha/              # reCAPTCHA integration
+├── src/
+│   ├── app/
+│   │   ├── [lang]/                 # Language-specific routes
+│   │   │   ├── about/
+│   │   │   ├── contact/
+│   │   │   ├── gallery/
+│   │   │   ├── news/
+│   │   │   ├── oz-yurdunu-qur/
+│   │   │   ├── partners/
+│   │   │   ├── past-festivals/
+│   │   │   ├── program/
+│   │   │   ├── sponsorship/
+│   │   │   └── layout.jsx
+│   │   ├── api/public/             # Mock API endpoints
+│   │   ├── globals.css
+│   │   └── layout.tsx
+│   └── components/
+│       ├── Header.jsx
+│       ├── Footer.jsx
+│       ├── LanguageSwitcher.jsx
+│       ├── ImageSlider.jsx
+│       ├── NewsCard.jsx
+│       ├── SectionBlock.jsx
+│       ├── Pagination.jsx
+│       └── FormComponent.jsx
+├── lib/
+│   ├── mockData.js                 # Mock API data
+│   ├── utils.js                    # Utility functions
+│   └── useLanguage.js              # Language hook
+├── public/
+│   ├── images/
+│   └── locales/                    # Translation files
+│       ├── az.json
+│       ├── en.json
+│       └── ru.json
+└── tailwind.config.ts              # Tailwind configuration
 ```
 
-## 🎨 Design Features
+## 🌐 Pages & Routes
 
-### Color Scheme
-- **Primary Green**: #228B22
-- **Secondary Green**: #32CD32
-- **Dark Green**: #006400
-- **Light Green**: #90EE90
-- **Green Accent**: #7CFC00
+### Main Pages
+- `/[lang]/` - Homepage with hero slider and sections
+- `/[lang]/about` - Festival information
+- `/[lang]/program` - 3-day festival program with filtering
+- `/[lang]/partners` - Partners with category filtering
+- `/[lang]/sponsorship` - Sponsorship information
+- `/[lang]/past-festivals` - Previous festivals history
+- `/[lang]/gallery` - Photo/video gallery sections
+- `/[lang]/gallery/[sectionId]` - Gallery section with pagination
+- `/[lang]/news` - News listing with pagination
+- `/[lang]/news/[slug]` - Individual news articles
+- `/[lang]/oz-yurdunu-qur` - Camping application form
+- `/[lang]/contact` - Contact information
+
+### API Endpoints
+- `/api/public/homepage-data` - Homepage data
+- `/api/public/news` - News listing
+- `/api/public/news/[slug]` - Individual news
+- `/api/public/festival` - Festival data
+- `/api/public/gallery` - Gallery sections
+- `/api/public/gallery/[sectionId]` - Gallery media
+- `/api/public/yurdunu-qur` - Form submission
+- `/api/public/contact-info` - Contact information
+- `/api/public/sponsorship` - Sponsorship data
+
+## 🎨 Design System
+
+### Colors
+- **Primary Green**: `#16a34a` (festival-primary)
+- **Secondary Green**: `#15803d` (festival-secondary)
+- **Accent Green**: `#22c55e` (festival-accent)
+- **Green Palette**: 50-900 shades for backgrounds and UI elements
 
 ### Typography
-- Primary font: Arial, sans-serif
-- Responsive font sizes
-- Proper heading hierarchy
+- **Primary Font**: Inter
+- **Fallbacks**: Roboto, Open Sans, sans-serif
+- **Responsive**: Mobile-first typography scaling
 
-### Layout
-- Bootstrap 5 grid system
-- Responsive breakpoints
-- Mobile-first approach
-
-## 🌐 Language Support
-
-### URL Structure
-- `myf.az/` → Redirects to `az.html`
-- `myf.az/az.html` → Azerbaijani version
-- `myf.az/en.html` → English version
-- `myf.az/ru.html` → Russian version
-
-### Translation System
-- Client-side JSON files for static content
-- Dynamic language detection
-- Language switcher in navigation
-
-## 📱 Pages Overview
-
-### 1. Homepage (az.html, en.html, ru.html)
-- **Full-width hero carousel** with 3 slides
-- About festival section with dynamic content
-- Latest news cards (3 items)
-- Volunteer and "Öz Yurdunu Qur" call-to-action cards
-- Partners preview section
-- Gallery preview section
-
-### 2. About Page (about.html)
-- Detailed festival information
-- Dynamic content loading
-- Image gallery with modal view
-- Related links section
-- Social sharing functionality
-
-### 3. Öz Yurdunu Qur Form (oz-yurdunu-qur.html)
-- **Complete application form** with validation
-- **Google reCAPTCHA v3** integration
-- File upload with preview
-- Auto-save functionality
-- Progress indicator
-- Terms and conditions modal
-
-## 🔧 Technical Implementation
-
-### JavaScript Architecture
-- **Vanilla JavaScript** (no frameworks)
-- Modular code structure
-- Event-driven programming
-- Promise-based API simulation
-
-### API Simulation
-- Mock data for all endpoints
-- Realistic response delays
-- Error handling
-- Multi-language data support
-
-### Form Validation
-- Real-time validation
-- Custom validation rules
-- File type/size checking
-- Phone number formatting
-- Email validation
-
-### Performance Optimizations
-- Lazy loading for images
-- Debounced scroll events
-- Efficient DOM manipulation
-- Minimal API calls
-
-## 📦 Dependencies
-
-### External Libraries
-- **Bootstrap 5.3.0** (CSS/JS)
-- **Font Awesome 6.0.0** (Icons)
-- **Google reCAPTCHA v3** (Form protection)
-
-### Browser Support
-- Chrome 70+
-- Firefox 65+
-- Safari 12+
-- Edge 79+
+### Components
+- **Header**: Transparent to solid on scroll with language switcher
+- **Footer**: Three-column layout with links and social media
+- **Cards**: Consistent shadow and hover effects
+- **Forms**: Accessible with proper validation
+- **Animations**: Smooth transitions and scroll-triggered animations
 
 ## 🚀 Getting Started
 
-### 1. Setup
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd myf-festival-frontend
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open in browser**
+   ```
+   http://localhost:3000
+   ```
+
+### Build for Production
+
 ```bash
-# Clone or download the project
-# No build process required - pure HTML/CSS/JS
-
-# Serve the files using any web server
-# For development, you can use:
-python -m http.server 8000
-# or
-npx serve
+npm run build
+npm start
 ```
 
-### 2. Configuration
-```javascript
-// Update reCAPTCHA keys in oz-yurdunu-qur.js
-const RECAPTCHA_SITE_KEY = 'your-actual-site-key';
+## 🌍 Internationalization
 
-// Update in HTML files
-<script src="https://www.google.com/recaptcha/api.js?render=your-actual-site-key"></script>
+The website supports three languages with complete translations:
+
+- **Azerbaijani (az)**: Default language
+- **English (en)**: Full translation
+- **Russian (ru)**: Full translation
+
+### Translation Files
+- `public/locales/az.json` - Azerbaijani translations
+- `public/locales/en.json` - English translations  
+- `public/locales/ru.json` - Russian translations
+
+### Adding New Languages
+1. Create new translation file in `public/locales/`
+2. Add language to `lib/utils.js` languages array
+3. Update `LanguageSwitcher.jsx` component
+
+## 📱 Responsive Design
+
+The website is fully responsive with breakpoints:
+- **Mobile**: 320px - 768px
+- **Tablet**: 768px - 1024px
+- **Desktop**: 1024px+
+
+## 🔧 Configuration
+
+### Tailwind Configuration
+Custom theme with festival colors and animations in `tailwind.config.ts`
+
+### Environment Variables
+No environment variables required for demo version.
+
+## 📊 Features Overview
+
+### Homepage
+- Hero image slider with 3 slides
+- About festival section
+- Camping application section
+- Volunteer section
+- Latest news (3 items)
+- Partners showcase
+- Responsive design
+
+### News System
+- Paginated news listing (15 per page)
+- Individual news pages with view counter
+- Breadcrumb navigation
+- Related news suggestions
+
+### Program Management
+- 3-day festival schedule
+- Day-based filtering
+- Time, location, and description display
+- Responsive program cards
+
+### Partner Management
+- Category-based filtering (Main, Media, Sponsors)
+- Clickable partner logos
+- Partner website links
+- Call-to-action for new partnerships
+
+### Gallery System
+- Section-based organization
+- Paginated media display (15 per page)
+- Photo and video support
+- Modal preview functionality
+
+### Form System
+- Camping application form
+- File upload support
+- Form validation
+- Success/error messaging
+
+## 🔒 Security
+
+- Input validation on all forms
+- XSS protection through React
+- CSRF protection built-in
+- File upload restrictions
+
+## 🚀 Deployment
+
+The project is ready for deployment on:
+- **Vercel** (recommended)
+- **Netlify**
+- **Any Node.js hosting**
+
+### Vercel Deployment
+```bash
+npm install -g vercel
+vercel
 ```
-
-### 3. Customization
-- **Colors**: Modify CSS variables in `css/style.css`
-- **Content**: Update translation files in `translations/`
-- **Images**: Replace placeholder images in `assets/images/`
-- **API**: Modify mock data in `js/api.js`
-
-## 📋 Mock API Endpoints
-
-The website simulates the following API endpoints:
-
-### Public Endpoints
-- `GET /api/Public/homepage-data` - Homepage content
-- `GET /api/Public/festival/about` - About page content
-- `GET /api/Public/festival/program` - Festival program
-- `GET /api/Public/news` - News list with pagination
-- `GET /api/Public/news/{slug}` - Single news article
-- `GET /api/Public/festival/partners` - Partners list
-- `GET /api/Public/contact-info` - Contact information
-- `POST /api/Public/yurdunu-qur` - Form submission
-
-### External Links
-- `https://konullu.myf.az` - Volunteer application (external)
-
-## 🎯 Key Features Implemented
-
-### ✅ Homepage
-- [x] Full-width hero carousel
-- [x] Dynamic content loading
-- [x] News cards with animation
-- [x] Volunteer and form CTAs
-- [x] Partners preview
-- [x] Gallery preview
-
-### ✅ About Page
-- [x] Rich content display
-- [x] Image gallery with modal
-- [x] Social sharing
-- [x] Print functionality
-- [x] Related links
-
-### ✅ Öz Yurdunu Qur Form
-- [x] Complete form validation
-- [x] reCAPTCHA v3 integration
-- [x] File upload with preview
-- [x] Auto-save functionality
-- [x] Progress indicator
-- [x] Success/error handling
-
-### ✅ Multi-language Support
-- [x] Three language versions
-- [x] Dynamic language switching
-- [x] Localized content
-- [x] URL-based language detection
-
-### ✅ Responsive Design
-- [x] Mobile-first approach
-- [x] Bootstrap 5 grid system
-- [x] Responsive images
-- [x] Touch-friendly interface
-
-## 🎨 Styling Guidelines
-
-### CSS Architecture
-- CSS custom properties for theming
-- BEM-like naming conventions
-- Modular stylesheets
-- Responsive utilities
-
-### Component Styles
-- Card-based layout
-- Consistent spacing
-- Hover effects
-- Smooth transitions
-
-## 🔒 Security Features
-
-- **reCAPTCHA v3** integration
-- **Input validation** on client-side
-- **File type restrictions**
-- **XSS prevention** measures
-
-## 📊 Performance Metrics
-
-- **Lighthouse Score**: 90+ (estimated)
-- **Page Load Time**: < 2 seconds
-- **First Contentful Paint**: < 1.5 seconds
-- **Mobile Responsiveness**: 100%
-
-## 🛠️ Development Notes
-
-### Mock Data
-All API calls are simulated with realistic data in `js/api.js`. The mock data includes:
-- Multi-language content
-- Realistic response times
-- Error simulation
-- Pagination support
-
-### Future Enhancements
-- PWA implementation
-- Offline functionality
-- Advanced animations
-- Performance monitoring
 
 ## 🤝 Contributing
 
-To contribute to this project:
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-1. Follow the existing code structure
-2. Maintain the green theme consistency
-3. Ensure multi-language support
-4. Test across different browsers
-5. Maintain accessibility standards
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🎉 Demo
+
+The website includes comprehensive demo data:
+- 20 news articles with pagination
+- 3-day festival program
+- 6 partner organizations
+- 3 gallery sections with media
+- Complete contact information
+- Multilingual content
 
 ## 📞 Support
 
-For technical support or questions about the implementation, please refer to the code comments and documentation within each file.
+For support and questions:
+- Email: info@milliyaylaq.az
+- Phone: +994 XX XXX XX XX
 
 ---
 
-**Note**: This is a complete front-end implementation with simulated backend functionality. For production use, replace the mock API calls with actual backend endpoints and update the reCAPTCHA keys with real values.
+**Built with ❤️ for the National Highland Festival of Azerbaijan**

@@ -1,0 +1,122 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "program": "Program",
+    "partners": "Partners",
+    "sponsorship": "Sponsorship",
+    "pastFestivals": "Past Festivals",
+    "gallery": "Gallery",
+    "news": "News",
+    "ozYurdunuQur": "Set Up Your Camp",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "National Highland Festival",
+    "subtitle": "Azerbaijan's biggest cultural event",
+    "cta": "Get Tickets"
+  },
+  "sections": {
+    "about": {
+      "title": "About Festival",
+      "description": "National Highland Festival is Azerbaijan's biggest cultural event. This festival brings together our nation's rich cultural heritage, traditions and modern art forms.",
+      "cta": "Learn More"
+    },
+    "ozYurdunuQur": {
+      "title": "Set Up Your Camp",
+      "description": "Experience the festival by setting up your tent. Get close to nature and create unforgettable memories.",
+      "cta": "Apply Now"
+    },
+    "volunteer": {
+      "title": "Become a Volunteer",
+      "description": "Help us make the festival successful. Join our volunteer team and gain special experience.",
+      "cta": "Join Us"
+    },
+    "news": {
+      "title": "Latest News",
+      "viewAll": "View All"
+    },
+    "partners": {
+      "title": "Partners",
+      "sponsorship": "Become a Sponsor"
+    }
+  },
+  "footer": {
+    "description": "National Highland Festival - Azerbaijan's biggest cultural event",
+    "quickLinks": "Quick Links",
+    "contact": "Contact",
+    "followUs": "Follow Us"
+  },
+  "common": {
+    "readMore": "Read More",
+    "viewMore": "View More",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "close": "Close",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Successfully completed",
+    "page": "Page",
+    "of": "of"
+  },
+  "about": {
+    "title": "About Festival",
+    "description": "National Highland Festival is Azerbaijan's biggest and most prestigious cultural event. This festival, which attracts thousands of visitors every year, brings together our nation's rich cultural heritage, traditions and modern art forms.\n\nDuring the festival, visitors can get acquainted with traditional music, dance, handicrafts, national cuisine and many other interesting activities. Modern art forms are also presented.\n\nThis festival is not just entertainment, but also an important platform for preserving our cultural values and passing them on to future generations."
+  },
+  "program": {
+    "title": "Festival Program",
+    "day1": "Day 1",
+    "day2": "Day 2",
+    "day3": "Day 3",
+    "allDays": "All Days"
+  },
+  "partners": {
+    "title": "Our Partners",
+    "all": "All",
+    "main": "Main Partners",
+    "media": "Media Partners",
+    "sponsors": "Sponsors"
+  },
+  "sponsorship": {
+    "title": "Become a Sponsor",
+    "description": "By sponsoring the National Highland Festival, you can contribute to Azerbaijan's cultural life.",
+    "benefits": "Benefits of Sponsorship",
+    "contact": "For contact: +994 XX XXX XX XX"
+  },
+  "pastFestivals": {
+    "title": "Past Festivals"
+  },
+  "gallery": {
+    "title": "Gallery",
+    "photos": "Photos",
+    "videos": "Videos",
+    "viewAll": "View All"
+  },
+  "news": {
+    "title": "News",
+    "latest": "Latest News",
+    "readMore": "Read More",
+    "publishedOn": "Published on",
+    "views": "views"
+  },
+  "ozYurdunuQur": {
+    "title": "Set Up Your Camp",
+    "description": "Experience the festival by setting up your tent",
+    "form": {
+      "name": "Name",
+      "surname": "Surname",
+      "phone": "Phone Number",
+      "idFront": "Front of ID Card",
+      "submit": "Apply",
+      "success": "Your application has been sent successfully!",
+      "error": "An error occurred. Please try again."
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "workingHours": "Working Hours"
+  }
+}

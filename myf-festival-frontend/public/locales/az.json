@@ -1,0 +1,122 @@
+{
+  "nav": {
+    "home": "Ana Səhifə",
+    "about": "Haqqında",
+    "program": "Proqram",
+    "partners": "Tərəfdaşlar",
+    "sponsorship": "Sponsorluq",
+    "pastFestivals": "Keçmiş Festivallar",
+    "gallery": "Qalereya",
+    "news": "Xəbərlər",
+    "ozYurdunuQur": "Öz Yurdunu Qur",
+    "contact": "Əlaqə"
+  },
+  "hero": {
+    "title": "Milli Yaylaq Festivalı",
+    "subtitle": "Azərbaycanın ən böyük mədəni hadisəsi",
+    "cta": "Biletləri Al"
+  },
+  "sections": {
+    "about": {
+      "title": "Festival Haqqında",
+      "description": "Milli Yaylaq Festivalı Azərbaycanın ən böyük mədəni hadisəsidir. Bu festival xalqımızın zəngin mədəni irsini, adət-ənənələrini və müasir incəsənət nümunələrini bir araya gətirir.",
+      "cta": "Ətraflı Məlumat"
+    },
+    "ozYurdunuQur": {
+      "title": "Öz Yurdunu Qur",
+      "description": "Festivalda çadır quraraq xüsusi təcrübə yaşayın. Təbiətlə üz-üzə qalın və unutulmaz anlar yaşayın.",
+      "cta": "Müraciət Et"
+    },
+    "volunteer": {
+      "title": "Könüllü Ol",
+      "description": "Festivalın uğurlu keçirilməsində bizə kömək edin. Könüllü komandamıza qoşularaq xüsusi təcrübə qazanın.",
+      "cta": "Qoşul"
+    },
+    "news": {
+      "title": "Son Xəbərlər",
+      "viewAll": "Hamısını Gör"
+    },
+    "partners": {
+      "title": "Tərəfdaşlar",
+      "sponsorship": "Sponsor Ol"
+    }
+  },
+  "footer": {
+    "description": "Milli Yaylaq Festivalı - Azərbaycanın ən böyük mədəni hadisəsi",
+    "quickLinks": "Sürətli Keçidlər",
+    "contact": "Əlaqə",
+    "followUs": "Bizi İzləyin"
+  },
+  "common": {
+    "readMore": "Ətraflı Oxu",
+    "viewMore": "Daha Çox Gör",
+    "submit": "Göndər",
+    "cancel": "Ləğv Et",
+    "close": "Bağla",
+    "loading": "Yüklənir...",
+    "error": "Xəta baş verdi",
+    "success": "Uğurla tamamlandı",
+    "page": "Səhifə",
+    "of": "/"
+  },
+  "about": {
+    "title": "Festival Haqqında",
+    "description": "Milli Yaylaq Festivalı Azərbaycanın ən böyük və ən prestijli mədəni hadisəsidir. Hər il minlərlə ziyarətçini cəlb edən bu festival, xalqımızın zəngin mədəni irsini, adət-ənənələrini və müasir incəsənət nümunələrini bir araya gətirir.\n\nFestival zamanı ziyarətçilər ənənəvi musiqi, rəqs, sənətkarlıq nümunələri, milli yeməklər və daha bir çox maraqlı fəaliyyətlə tanış ola bilərlər. Həmçinin müasir incəsənət nümunələri də təqdim olunur.\n\nBu festival təkcə əyləncə deyil, həm də mədəni dəyərlərimizin qorunması və gələcək nəsillərə ötürülməsi üçün mühüm platformadır."
+  },
+  "program": {
+    "title": "Festival Proqramı",
+    "day1": "1-ci Gün",
+    "day2": "2-ci Gün",
+    "day3": "3-cü Gün",
+    "allDays": "Bütün Günlər"
+  },
+  "partners": {
+    "title": "Tərəfdaşlarımız",
+    "all": "Hamısı",
+    "main": "Əsas Tərəfdaşlar",
+    "media": "Media Tərəfdaşları",
+    "sponsors": "Sponsorlar"
+  },
+  "sponsorship": {
+    "title": "Sponsor Olmaq",
+    "description": "Milli Yaylaq Festivalına sponsor olmaqla Azərbaycanın mədəni həyatına töhfə verə bilərsiniz.",
+    "benefits": "Sponsor Olmağın Üstünlükləri",
+    "contact": "Əlaqə üçün: +994 XX XXX XX XX"
+  },
+  "pastFestivals": {
+    "title": "Keçmiş Festivallar"
+  },
+  "gallery": {
+    "title": "Qalereya",
+    "photos": "Fotolar",
+    "videos": "Videolar",
+    "viewAll": "Hamısını Gör"
+  },
+  "news": {
+    "title": "Xəbərlər",
+    "latest": "Son Xəbərlər",
+    "readMore": "Ətraflı Oxu",
+    "publishedOn": "Dərc tarixi",
+    "views": "baxış"
+  },
+  "ozYurdunuQur": {
+    "title": "Öz Yurdunu Qur",
+    "description": "Festivalda çadır quraraq xüsusi təcrübə yaşayın",
+    "form": {
+      "name": "Ad",
+      "surname": "Soyad",
+      "phone": "Əlaqə nömrəsi",
+      "idFront": "Şəxsiyyət vəsiqəsinin ön tərəfi",
+      "submit": "Müraciət Et",
+      "success": "Müraciətiniz uğurla göndərildi!",
+      "error": "Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin."
+    }
+  },
+  "contact": {
+    "title": "Əlaqə",
+    "address": "Ünvan",
+    "phone": "Telefon",
+    "email": "E-poçt",
+    "workingHours": "İş saatları"
+  }
+}

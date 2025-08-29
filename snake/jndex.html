@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Snake – JS Demo</title>
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background: #222;
+    color: #eee;
+    margin: 0;
+    padding: 20px;
+  }
+  canvas {
+    background: #000;
+    margin-top: 10px;
+  }
+  #info {
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Snake (JavaScript Demo)</h1>
+<canvas id="game" width="400" height="400"></canvas>
+<div id="info">
+  <span id="score">Score: 0</span> | <span id="high">High Score: 0</span>
+</div>
+
+<script>
+/*  ──────────────────────────────────────────────────────────────────────  */
+/*  Snake Game – Vanilla JS
+    • Uses requestAnimationFrame for smooth animation
+    • Grid‑based movement (snake moves in steps of one cell)
+    • Simple collision detection, score tracking, high‑score persistence
+    • Arrow keys for control (default) – works on touch‑enabled browsers too
+/*  ──────────────────────────────────────────────────────────────────────  */
+
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+
+const gridSize = 20;            // Size of one cell (in px)
+const canvasSize = canvas.width; // Assumes square canvas
+const cells = canvasSize / gridSize;
+
+// Initial snake state
+let snake = [{x: Math.floor(cells/2), y: Math.floor(cells/2)}];
+let direction = {x: 0, y: -1}; // Initially moving up
+let nextDirection = direction; // Buffer for keypresses
+
+let food = spawnFood();
+let score = 0;
+let highScore = parseInt(localStorage.getItem('snakeHighScore')) || 0;
+
+const speed = 120; // milliseconds per move
+
+let lastTime = 0;
+
+// ──────────────────────────────────────────────────────────────────────
+//  Game Loop
+// ──────────────────────────────────────────────────────────────────────
+function update(time) {
+  if (time - lastTime > speed) {
+    lastTime = time;
+    moveSnake();
+  }
+  render();
+  requestAnimationFrame(update);
+}
+requestAnimationFrame(update);
+
+// ──────────────────────────────────────────────────────────────────────
+//  Keyboard / Touch Controls
+// ──────────────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  switch (e.key) {
+    case 'ArrowUp':    if (direction.y !== 1) nextDirection = {x: 0, y: -1}; break;
+    case 'ArrowDown':  if (direction.y !== -1) nextDirection = {x: 0, y: 1}; break;
+    case 'ArrowLeft':  if (direction.x !== 1) nextDirection = {x: -1, y: 0}; break;
+    case 'ArrowRight': if (direction.x !== -1) nextDirection = {x: 1, y: 0}; break;
+  }
+});
+
+// Optional: touch controls (for mobile)
+let touchStart = null;
+canvas.addEventListener('touchstart', e => {
+  touchStart = {x: e.touches[0].clientX, y: e.touches[0].clientY};
+});
+canvas.addEventListener('touchend', e => {
+  if (!touchStart) return;
+  const dx = e.changedTouches[0].clientX - touchStart.x;
+  const dy = e.changedTouches[0].clientY - touchStart.y;
+  if (Math.abs(dx) > Math.abs(dy)) {
+    // Horizontal swipe
+    if (dx > 0 && direction.x !== -1) nextDirection = {x: 1, y: 0};
+    if (dx < 0 && direction.x !== 1)  nextDirection = {x: -1, y: 0};
+  } else {
+    // Vertical swipe
+    if (dy > 0 && direction.y !== -1) nextDirection = {x: 0, y: 1};
+    if (dy < 0 && direction.y !== 1)  nextDirection = {x: 0, y: -1};
+  }
+  touchStart = null;
+});
+
+// ──────────────────────────────────────────────────────────────────────
+//  Snake movement logic
+// ──────────────────────────────────────────────────────────────────────
+function moveSnake() {
+  // Apply buffered direction
+  direction = nextDirection;
+
+  // New head position
+  const newHead = {
+    x: snake[0].x + direction.x,
+    y: snake[0].y + direction.y
+  };
+
+  // Collision: walls
+  if (newHead.x < 0 || newHead.x >= cells || newHead.y < 0 || newHead.y >= cells) {
+    resetGame();
+    return;
+  }
+
+  // Collision: self
+  if (snake.some(segment => segment.x === newHead.x && segment.y === newHead.y)) {
+    resetGame();
+    return;
+  }
+
+  // Insert new head
+  snake.unshift(newHead);
+
+  // Check if we ate food
+  if (newHead.x === food.x && newHead.y === food.y) {
+    score += 1;
+    updateScoreDisplay();
+    food = spawnFood();
+  } else {
+    // Remove tail (normal move)
+    snake.pop();
+  }
+}
+
+// ──────────────────────────────────────────────────────────────────────
+//  Food spawning
+// ──────────────────────────────────────────────────────────────────────
+function spawnFood() {
+  let newFood;
+  do {
+    newFood = {
+      x: Math.floor(Math.random() * cells),
+      y: Math.floor(Math.random() * cells)
+    };
+  } while (snake.some(seg => seg.x === newFood.x && seg.y === newFood.y));
+  return newFood;
+}
+
+// ──────────────────────────────────────────────────────────────────────
+//  Rendering
+// ──────────────────────────────────────────────────────────────────────
+function render() {
+  // Clear canvas
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, canvasSize, canvasSize);
+
+  // Draw food
+  ctx.fillStyle = '#ff0';
+  ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
+
+  // Draw snake
+  ctx.fillStyle = '#0f0';
+  snake.forEach((seg, index) => {
+    // Head is slightly brighter
+    if (index === 0) ctx.fillStyle = '#0f0';
+    else ctx.fillStyle = '#080';
+    ctx.fillRect(seg.x * gridSize, seg.y * gridSize, gridSize, gridSize);
+  });
+}
+
+// ──────────────────────────────────────────────────────────────────────
+//  Score handling
+// ──────────────────────────────────────────────────────────────────────
+function updateScoreDisplay() {
+  document.getElementById('score').textContent = `Score: ${score}`;
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem('snakeHighScore', highScore);
+    document.getElementById('high').textContent = `High Score: ${highScore}`;
+  }
+}
+
+// ──────────────────────────────────────────────────────────────────────
+//  Reset game after collision
+// ──────────────────────────────────────────────────────────────────────
+function resetGame() {
+  alert(`Game over! Your score: ${score}`);
+  snake = [{x: Math.floor(cells/2), y: Math.floor(cells/2)}];
+  direction = {x: 0, y: -1};
+  nextDirection = direction;
+  food = spawnFood();
+  score = 0;
+  updateScoreDisplay();
+}
+
+// ──────────────────────────────────────────────────────────────────────
+//  Initial high score display
+// ──────────────────────────────────────────────────────────────────────
+updateScoreDisplay();
+
+</script>
+</body>
+</html>

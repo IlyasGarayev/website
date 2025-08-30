@@ -1,216 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Snake – JS Demo</title>
+<meta charset="utf-8">
+<title>Snake – Responsive JS Demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-family: Arial, sans-serif;
-    background: #222;
-    color: #eee;
-    margin: 0;
-    padding: 20px;
+  :root{
+    --bg:#121212;
+    --text:#eee;
+    --snake:#66ff66;
+    --head:#28a745;
+    --food:#ffcc00;
+    --shadow:rgba(0,0,0,.4);
+    --border:#333;
   }
-  canvas {
-    background: #000;
-    margin-top: 10px;
+  body{
+    margin:0; padding:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:Arial,Helvetica,sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-height:100vh;
   }
-  #info {
-    margin-top: 10px;
+  header{
+    padding:20px 0;
+    text-align:center;
+  }
+  header h1{
+    margin:0;
+    font-size:2.2rem;
+  }
+  #info{
+    margin-top:10px;
+    font-size:1.1rem;
+  }
+  #game{
+    background:var(--border);
+    display:block;
+    margin-top:15px;
+    border-radius:4px;
+    box-shadow:0 4px 12px var(--shadow);
+    touch-action: none;   /* Prevent default gestures */
+  }
+  /* Game over overlay */
+  #overlay{
+    position:absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,.6);
+    color:var(--text);
+    font-size:1.5rem;
+    text-align:center;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity .3s;
+  }
+  #overlay.show{
+    opacity:1;
+    pointer-events:auto;
+  }
+  #overlay button{
+    margin-top:12px;
+    padding:.4rem 1rem;
+    font-size:1rem;
+    background:var(--head);
+    border:none;
+    border-radius:4px;
+    color:#fff;
+    cursor:pointer;
+  }
+  #overlay button:hover{
+    background:#22c55e;
+  }
+  /* Pause button */
+  #pauseBtn{
+    position:fixed;
+    top:15px; right:15px;
+    background:var(--head);
+    border:none;
+    border-radius:4px;
+    padding:.4rem .8rem;
+    color:#fff;
+    cursor:pointer;
+    font-size:1rem;
+    z-index:10;
+  }
+  #pauseBtn:hover{
+    background:#22c55e;
   }
 </style>
 </head>
 <body>
 
-<h1>Snake (JavaScript Demo)</h1>
-<canvas id="game" width="400" height="400"></canvas>
-<div id="info">
-  <span id="score">Score: 0</span> | <span id="high">High Score: 0</span>
+<header>
+  <h1>Snake – Responsive Demo</h1>
+  <div id="info">
+    Score: <span id="score">0</span> |
+    High Score: <span id="high">0</span>
+  </div>
+</header>
+
+<button id="pauseBtn">Pause</button>
+<canvas id="game"></canvas>
+<div id="overlay">
+  <div>
+    <div id="finalScore">Score: 0</div>
+    <button id="restartBtn">Restart</button>
+  </div>
 </div>
 
 <script>
-/*  ──────────────────────────────────────────────────────────────────────  */
-/*  Snake Game – Vanilla JS
-    • Uses requestAnimationFrame for smooth animation
-    • Grid‑based movement (snake moves in steps of one cell)
-    • Simple collision detection, score tracking, high‑score persistence
-    • Arrow keys for control (default) – works on touch‑enabled browsers too
-/*  ──────────────────────────────────────────────────────────────────────  */
+/* ─────────────────────────────────────────────────────────────────────────────
+   1.  SETTINGS & GLOBALS
+   ───────────────────────────────────────────────────────────────────────────── */
 
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
+const overlay = document.getElementById('overlay');
+const finalScoreEl = document.getElementById('finalScore');
+const restartBtn = document.getElementById('restartBtn');
+const pauseBtn = document.getElementById('pauseBtn');
+const scoreEl = document.getElementById('score');
+const highEl   = document.getElementById('high');
 
-const gridSize = 20;            // Size of one cell (in px)
-const canvasSize = canvas.width; // Assumes square canvas
-const cells = canvasSize / gridSize;
+const gridSize = 20;          // size of one cell in pixels
+let cellCount = 20;           // will be set later based on canvas size
+let speed     = 120;          // ms per step (can be tweaked)
+const COLORS = {
+  snake: getComputedStyle(document.documentElement).getPropertyValue('--snake').trim(),
+  head : getComputedStyle(document.documentElement).getPropertyValue('--head').trim(),
+  food : getComputedStyle(document.documentElement).getPropertyValue('--food').trim()
+};
 
-// Initial snake state
-let snake = [{x: Math.floor(cells/2), y: Math.floor(cells/2)}];
-let direction = {x: 0, y: -1}; // Initially moving up
-let nextDirection = direction; // Buffer for keypresses
+let highScore = +localStorage.getItem('snakeHigh') || 0;
+highEl.textContent = highScore;
 
-let food = spawnFood();
-let score = 0;
-let highScore = parseInt(localStorage.getItem('snakeHighScore')) || 0;
+let paused = false;           // game state
 
-const speed = 120; // milliseconds per move
+/* ─────────────────────────────────────────────────────────────────────────────
+   2.  RESPONSIVE CANVAS SETUP
+   ───────────────────────────────────────────────────────────────────────────── */
 
-let lastTime = 0;
+function resizeCanvas(){
+  const dpr = window.devicePixelRatio || 1;
+  // keep the canvas square and max‑size 480px wide
+  const max = 480;
+  const width = Math.min(max, window.innerWidth - 40);
+  const height = width;      // preserve aspect ratio
 
-// ──────────────────────────────────────────────────────────────────────
-//  Game Loop
-// ──────────────────────────────────────────────────────────────────────
-function update(time) {
-  if (time - lastTime > speed) {
-    lastTime = time;
-    moveSnake();
-  }
-  render();
-  requestAnimationFrame(update);
+  canvas.style.width = width + 'px';
+  canvas.style.height = height + 'px';
+
+  canvas.width  = width * dpr;
+  canvas.height = height * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);  // scale drawing to pixel‑ratio
+
+  cellCount = Math.floor((width - 8) / gridSize);   // minus a tiny border
 }
-requestAnimationFrame(update);
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
 
-// ──────────────────────────────────────────────────────────────────────
-//  Keyboard / Touch Controls
-// ──────────────────────────────────────────────────────────────────────
-document.addEventListener('keydown', e => {
-  switch (e.key) {
-    case 'ArrowUp':    if (direction.y !== 1) nextDirection = {x: 0, y: -1}; break;
-    case 'ArrowDown':  if (direction.y !== -1) nextDirection = {x: 0, y: 1}; break;
-    case 'ArrowLeft':  if (direction.x !== 1) nextDirection = {x: -1, y: 0}; break;
-    case 'ArrowRight': if (direction.x !== -1) nextDirection = {x: 1, y: 0}; break;
+/* ─────────────────────────────────────────────────────────────────────────────
+   2.  GAME STATE
+   ───────────────────────────────────────────────────────────────────────────── */
+
+let snake, dir, nextDir, food, score, lastTime, pauseTime;
+
+function init(){
+  snake   = [{x:Math.floor(cellCount/2), y:Math.floor(cellCount/2)}];
+  dir     = {x:0, y:-1};
+  nextDir = dir;
+  food    = spawnFood();
+  score   = 0;
+  lastTime = performance.now();
+  paused   = false;
+  pauseBtn.textContent = 'Pause';
+  updateScore();
+}
+init();
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   3.  CORE LOGIC
+   ───────────────────────────────────────────────────────────────────────────── */
+
+function spawnFood(){
+  let cell;
+  while(true){
+    cell = {
+      x: Math.floor(Math.random() * cellCount),
+      y: Math.floor(Math.random() * cellCount)
+    };
+    if(!snake.some(p=>p.x===cell.x&&p.y===cell.y)) return cell;
   }
+}
+
+function updateScore(){
+  scoreEl.textContent = score;
+  if(score > highScore){
+    highScore = score;
+    localStorage.setItem('snakeHigh', highScore);
+    highEl.textContent = highScore;
+  }
+}
+
+function moveSnake(){
+  const newHead = {x:snake[0].x + dir.x, y:snake[0].y + dir.y};
+
+  // --- Collision with walls
+  if(newHead.x < 0 || newHead.x >= cellCount ||
+     newHead.y < 0 || newHead.y >= cellCount){
+    gameOver();
+    return;
+  }
+
+  // --- Collision with self
+  if(snake.some(p=>p.x===newHead.x && p.y===newHead.y)){
+    gameOver();
+    return;
+  }
+
+  // --- Add new head
+  snake.unshift(newHead);
+
+  // --- Food ?
+  if(newHead.x===food.x && newHead.y===food.y){
+    score++;
+    updateScore();
+    food = spawnFood();
+  }else{
+    snake.pop();     // normal movement – remove tail
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   4.  ANIMATION LOOP (time based)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+let accumulated = 0;   // ms accumulated since last step
+
+function loop(time){
+  if(paused) {
+    lastTime = time;          // keep time frozen
+    requestAnimationFrame(loop);
+    return;
+  }
+
+  const delta = time - lastTime;
+  lastTime = time;
+  accumulated += delta;
+
+  while(accumulated >= speed){
+    moveSnake();
+    accumulated -= speed;
+  }
+
+  render();
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   5.  RENDERING
+   ───────────────────────────────────────────────────────────────────────────── */
+
+function render(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // draw food
+  ctx.fillStyle = COLORS.food;
+  ctx.fillRect(food.x*gridSize, food.y*gridSize, gridSize, gridSize);
+
+  // draw snake
+  for(let i=0;i<snake.length;i++){
+    ctx.fillStyle = i===0 ? COLORS.head : COLORS.snake;
+    ctx.fillRect(snake[i].x*gridSize, snake[i].y*gridSize, gridSize, gridSize);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   6.  INPUT
+   ───────────────────────────────────────────────────────────────────────────── */
+
+const keyMap = {
+  ArrowUp   : {x:0, y:-1},
+  ArrowDown : {x:0, y:1},
+  ArrowLeft : {x:-1, y:0},
+  ArrowRight:{x:1, y:0},
+  w         : {x:0, y:-1},
+  s         : {x:0, y:1},
+  a         : {x:-1, y:0},
+  d         : {x:1, y:0}
+};
+
+document.addEventListener('keydown', e=>{
+  const d = keyMap[e.key];
+  if(d && !isOpposite(d)) nextDir = d;
+  if(e.key==='p' || e.key==='P') togglePause();
 });
 
-// Optional: touch controls (for mobile)
+function isOpposite(d){
+  return d.x === -dir.x && d.y === -dir.y;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   7.  TOUCH SUPPORT (swipe & pinch)
+   ───────────────────────────────────────────────────────────────────────────── */
+
 let touchStart = null;
-canvas.addEventListener('touchstart', e => {
-  touchStart = {x: e.touches[0].clientX, y: e.touches[0].clientY};
+canvas.addEventListener('touchstart', e=>{
+  const t = e.touches[0];
+  touchStart = {x:t.clientX, y:t.clientY, time:performance.now()};
 });
-canvas.addEventListener('touchend', e => {
-  if (!touchStart) return;
-  const dx = e.changedTouches[0].clientX - touchStart.x;
-  const dy = e.changedTouches[0].clientY - touchStart.y;
-  if (Math.abs(dx) > Math.abs(dy)) {
-    // Horizontal swipe
-    if (dx > 0 && direction.x !== -1) nextDirection = {x: 1, y: 0};
-    if (dx < 0 && direction.x !== 1)  nextDirection = {x: -1, y: 0};
-  } else {
-    // Vertical swipe
-    if (dy > 0 && direction.y !== -1) nextDirection = {x: 0, y: 1};
-    if (dy < 0 && direction.y !== 1)  nextDirection = {x: 0, y: -1};
+
+canvas.addEventListener('touchend', e=>{
+  if(!touchStart) return;
+  const t = e.changedTouches[0];
+  const dx = t.clientX - touchStart.x;
+  const dy = t.clientY - touchStart.y;
+  const dist = Math.hypot(dx,dy);
+  const threshold = 30;   // minimum swipe distance
+
+  if(dist > threshold){
+    const angle = Math.atan2(dy, dx);
+    // decide direction
+    if(Math.abs(angle) < Math.PI/4){        // right
+      if(!isOpposite({x:1,y:0})) nextDir = {x:1,y:0};
+    }else if(Math.abs(angle) > 3*Math.PI/4){ // left
+      if(!isOpposite({x:-1,y:0})) nextDir = {x:-1,y:0};
+    }else if(angle < 0){                    // up
+      if(!isOpposite({x:0,y:-1})) nextDir = {x:0,y:-1};
+    }else{                                 // down
+      if(!isOpposite({x:0,y:1})) nextDir = {x:0,y:1};
+    }
   }
   touchStart = null;
 });
 
-// ──────────────────────────────────────────────────────────────────────
-//  Snake movement logic
-// ──────────────────────────────────────────────────────────────────────
-function moveSnake() {
-  // Apply buffered direction
-  direction = nextDirection;
+/* ─────────────────────────────────────────────────────────────────────────────
+   8.  GAME OVER / RESTART
+   ───────────────────────────────────────────────────────────────────────────── */
 
-  // New head position
-  const newHead = {
-    x: snake[0].x + direction.x,
-    y: snake[0].y + direction.y
-  };
-
-  // Collision: walls
-  if (newHead.x < 0 || newHead.x >= cells || newHead.y < 0 || newHead.y >= cells) {
-    resetGame();
-    return;
-  }
-
-  // Collision: self
-  if (snake.some(segment => segment.x === newHead.x && segment.y === newHead.y)) {
-    resetGame();
-    return;
-  }
-
-  // Insert new head
-  snake.unshift(newHead);
-
-  // Check if we ate food
-  if (newHead.x === food.x && newHead.y === food.y) {
-    score += 1;
-    updateScoreDisplay();
-    food = spawnFood();
-  } else {
-    // Remove tail (normal move)
-    snake.pop();
-  }
+function gameOver(){
+  finalScoreEl.textContent = `Score: ${score}`;
+  overlay.classList.add('show');
 }
 
-// ──────────────────────────────────────────────────────────────────────
-//  Food spawning
-// ──────────────────────────────────────────────────────────────────────
-function spawnFood() {
-  let newFood;
-  do {
-    newFood = {
-      x: Math.floor(Math.random() * cells),
-      y: Math.floor(Math.random() * cells)
-    };
-  } while (snake.some(seg => seg.x === newFood.x && seg.y === newFood.y));
-  return newFood;
+restartBtn.addEventListener('click', ()=>{
+  overlay.classList.remove('show');
+  init();
+});
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   9.  PAUSE / RESUME
+   ───────────────────────────────────────────────────────────────────────────── */
+
+function togglePause(){
+  paused = !paused;
+  pauseBtn.textContent = paused ? 'Resume' : 'Pause';
 }
-
-// ──────────────────────────────────────────────────────────────────────
-//  Rendering
-// ──────────────────────────────────────────────────────────────────────
-function render() {
-  // Clear canvas
-  ctx.fillStyle = '#000';
-  ctx.fillRect(0, 0, canvasSize, canvasSize);
-
-  // Draw food
-  ctx.fillStyle = '#ff0';
-  ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
-
-  // Draw snake
-  ctx.fillStyle = '#0f0';
-  snake.forEach((seg, index) => {
-    // Head is slightly brighter
-    if (index === 0) ctx.fillStyle = '#0f0';
-    else ctx.fillStyle = '#080';
-    ctx.fillRect(seg.x * gridSize, seg.y * gridSize, gridSize, gridSize);
-  });
-}
-
-// ──────────────────────────────────────────────────────────────────────
-//  Score handling
-// ──────────────────────────────────────────────────────────────────────
-function updateScoreDisplay() {
-  document.getElementById('score').textContent = `Score: ${score}`;
-  if (score > highScore) {
-    highScore = score;
-    localStorage.setItem('snakeHighScore', highScore);
-    document.getElementById('high').textContent = `High Score: ${highScore}`;
-  }
-}
-
-// ──────────────────────────────────────────────────────────────────────
-//  Reset game after collision
-// ──────────────────────────────────────────────────────────────────────
-function resetGame() {
-  alert(`Game over! Your score: ${score}`);
-  snake = [{x: Math.floor(cells/2), y: Math.floor(cells/2)}];
-  direction = {x: 0, y: -1};
-  nextDirection = direction;
-  food = spawnFood();
-  score = 0;
-  updateScoreDisplay();
-}
-
-// ──────────────────────────────────────────────────────────────────────
-//  Initial high score display
-// ──────────────────────────────────────────────────────────────────────
-updateScoreDisplay();
-
 </script>
+
 </body>
 </html>
